@@ -8,9 +8,15 @@
   "theme_color": "#0d0f11",
   "icons": [
     {
-      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23161b22'/><path d='M160 120h192a20 20 0 0 1 20 20v232a20 20 0 0 1-20 20H160a20 20 0 0 1-20-20V140a20 20 0 0 1 20-20z' fill='%23d4a853'/></svg>",
+      "src": "https://cdn-icons-png.flaticon.com/512/3209/3209265.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3209/3209265.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
