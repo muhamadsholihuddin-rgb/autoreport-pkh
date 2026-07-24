@@ -14,14 +14,13 @@
 <meta name="apple-mobile-web-app-title" content="AutoReport PKH"/>
 <meta name="description" content="Aplikasi Pembuat Laporan Harian RHK Pendamping Sosial PKH Kemensos RI"/>
 
-<!-- Embedded Web App Manifest for PWABuilder / GitHub Pages -->
-<!-- Link Manifest External -->
+<!-- External Manifest Link -->
 <link rel="manifest" href="./manifest.json" />
 
 <!-- External Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -40,19 +39,80 @@ body{
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:#30363d;border-radius:99px}
 
-/* Element Form yang Mudah Ditotok di Layar HP */
+/* FIXED HEADER STYLING (TIDAK HILANG SAAT DISCROLL) */
+header.app-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 56px;
+  background: rgba(22, 27, 34, 0.98);
+  border-bottom: 1px solid var(--bd);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+.logo-simple {
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--gold);
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hdr-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hdr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--bd2);
+  background: var(--surfhi);
+  color: var(--txs);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  min-height: 36px;
+  transition: all .15s ease;
+}
+.hdr-btn:active { transform: scale(.95); }
+.hdr-btn.active {
+  border-color: var(--gold);
+  background: var(--goldDim);
+  color: var(--gold);
+}
+.hdr-btn.btn-share-main {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+}
+
+/* TOUCH FRIENDLY FORM CONTROLS */
 input,select,textarea{
   font-family:inherit;background:#0d1117;border:1px solid var(--bd2);
   color:var(--tx);border-radius:10px;padding:11px 14px;font-size:14px;
-  outline:none;width:100%;transition:border-color .15s, box-shadow .15s;
+  outline:none;width:100%;transition:border-color .15s;
   min-height:44px;
 }
-input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 2px var(--goldDim)}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
 select{appearance:none;padding-right:36px;cursor:pointer}
 select option{background:#161b22;color:var(--tx)}
 textarea{resize:vertical;line-height:1.6;min-height:90px}
 input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.6);cursor:pointer}
-input[type=range]{accent-color:var(--gold);cursor:pointer;min-height:auto}
 
 label.photo-slot{
   display:block;position:relative;background:#0d1117;border:1.5px dashed var(--bd2);
@@ -73,7 +133,7 @@ label.photo-slot .ph-del{
 }
 label.kop-slot{aspect-ratio:5/1}
 
-.card{background:var(--surf);border:1px solid var(--bd);border-radius:16px;padding:20px}
+.card{background:var(--surf);border:1px solid var(--bd);border-radius:16px;padding:18px}
 .sec-hd{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--txs);text-transform:uppercase;letter-spacing:.12em;margin-bottom:16px}
 .lbl{font-size:11px;font-weight:700;color:var(--txs);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:6px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -81,7 +141,6 @@ label.kop-slot{aspect-ratio:5/1}
 .fld{display:flex;flex-direction:column;gap:14px}
 .divider{height:1px;background:var(--bd);margin:16px 0}
 
-/* Tombol Ramah Sentuhan (Touch-Friendly) */
 .btn-gold{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   padding:10px 18px;border-radius:10px;border:none;
@@ -98,7 +157,6 @@ label.kop-slot{aspect-ratio:5/1}
   background:transparent;color:var(--txs);font-size:12px;font-weight:700;
   cursor:pointer;font-family:inherit;min-height:44px;white-space:nowrap;
 }
-.btn-out:active{background:rgba(255,255,255,.05)}
 
 .btn-ghost{
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
@@ -107,13 +165,6 @@ label.kop-slot{aspect-ratio:5/1}
   font-weight:700;cursor:pointer;font-family:inherit;min-height:36px;
 }
 
-.tab-btn{
-  display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;
-  border:none;cursor:pointer;font-family:inherit;background:transparent;
-  color:var(--txm);font-size:12px;font-weight:600;transition:all .15s;
-}
-.tab-btn.active{background:var(--goldDim);color:var(--gold)}
-
 .side-tab{
   display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;
   border-radius:10px;border:none;cursor:pointer;background:transparent;
@@ -121,7 +172,6 @@ label.kop-slot{aspect-ratio:5/1}
   transition:all .15s;border-left:3px solid transparent;font-family:inherit;
 }
 .side-tab.active{background:var(--goldDim);color:var(--gold);border-left-color:var(--gold)}
-.side-tab:hover{color:var(--txs)}
 
 .rhk-card{
   background:var(--surf);border:1px solid var(--bd);border-radius:16px;
@@ -144,7 +194,6 @@ label.kop-slot{aspect-ratio:5/1}
 }
 .toast.err{border-color:#f85149;color:#f85149}
 
-/* Tampilan Dokumen Cetak A4 */
 #doc-preview-wrapper{
   width:100%;overflow-x:auto;padding:10px 0;display:flex;justify-content:center;
 }
@@ -172,7 +221,6 @@ label.kop-slot{aspect-ratio:5/1}
   pointer-events:none;color:var(--txm);font-size:16px;font-weight:bold;
 }
 
-/* Optimasi Layar HP */
 @media(max-width:860px){
   #sidebar{display:none!important}
   .row2, .row3{grid-template-columns:1fr!important}
@@ -180,7 +228,6 @@ label.kop-slot{aspect-ratio:5/1}
   #doc-preview{padding:1.2cm 1.2cm}
 }
 
-/* Pengaturan Cetak */
 @media print{
   @page{size:A4;margin:1.5cm 2cm}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -205,11 +252,11 @@ label.kop-slot{aspect-ratio:5/1}
 <div id="print-wrap" style="display:none"></div>
 
 <script type="module">
-// ── REGISTER SERVICE WORKER (PWA) ──────────
+// ── REGISTER SERVICE WORKER FOR PWA ──────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     const swCode = `
-      const CACHE_NAME = 'autoreport-pkh-v2';
+      const CACHE_NAME = 'autoreport-pkh-v3';
       self.addEventListener('install', (e) => self.skipWaiting());
       self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
       self.addEventListener('fetch', (e) => {
@@ -243,7 +290,6 @@ const RHK = [
   {id:9,no:9,title:"Berita Baik Kemensos",sub:"Komunikasi Publik",options:["Penyebaran Berita Baik di Media Sosial"]}
 ];
 
-// ── PENAMAPALAN FILE (FORMAT: nama_rhk berapa_hari_tgl_bulan_tahun.pdf) ────────
 const BULAN_ID = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 const HARI_ID = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
 
@@ -265,6 +311,7 @@ const lastWorkday = () => {
 
 const today = () => new Date().toISOString().split("T")[0];
 
+// Format Nama File Sesuai Permintaan: nama_rhk berapa_hari_tgl_bulan_tahun.pdf
 function buildFileName(ext) {
   let nama = (S.form.nama || "Pendamping").trim();
   const rhkNo = S.rhk ? S.rhk.no : 1;
@@ -293,12 +340,11 @@ function buildFileName(ext) {
   }
 
   const clean = s => s.replace(/[/\\:*?"<>|]/g, "").replace(/\s+/g, "_").replace(/_+/g, "_").replace(/^_+|_+$/g, "");
-  
   const rawName = `${nama}_RHK${rhkNo}_${hariStr}_${tglStr}_${bulanStr}_${tahunStr}`;
   return `${clean(rawName)}.${ext}`;
 }
 
-// ── DASAR KEGIATAN ──────────────────────────
+// ── DASAR KEGIATAN DINAMIS ──────────────────
 function getDasar(rhk, f, modul, sesi) {
   const base = [
     `Rencana Hasil Kerja (RHK) ASN PPPK Dit. PSNK terkait ${rhk.title} — ${rhk.sub}.`,
@@ -318,7 +364,7 @@ function getDasar(rhk, f, modul, sesi) {
   return [...base, sp[rhk.no]||sp[9]];
 }
 
-// ── BUILDER NARASI AUTOMATIS ─────────────────
+// ── GENERATOR NARASI AUTOMATIS ───────────────
 let _narasiManual = false;
 
 function buildNarrative(rhk, f, modul, sesi) {
@@ -372,18 +418,15 @@ function buildNarrative(rhk, f, modul, sesi) {
   return {umum,tujuan,narasi,hasil};
 }
 
-// ── STATE APPLICATION ────────────────────────
+// ── STATE MANAJEMEN APLIKASI ───────────────
 let S = {
   page:"edit", section:"profil",
   rhk: RHK[0],
   modul: Object.keys(P2K2)[0],
   sesi: Object.values(P2K2)[0][0],
   fontSize: 11.5,
-  pdfLoading: false,
   shareLoading: false,
-  sidebar: true,
   profileGate: true,
-  fitToWidth: true,
   desaList: [],
   kop:null, ttd:null, f1:null, f2:null, f3:null,
   form:{
@@ -451,16 +494,15 @@ autoNarrative();
 
 // ── SVG ICONS ────────────────────────────────
 const IC = {
-  menu:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>`,
-  user:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  pencil:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+  user:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
   map:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
   img:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
   txt:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>`,
   eye:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
   grid:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
   word:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
-  pdf:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
-  share:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`,
+  share:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`,
   ref:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>`,
   chk:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`,
   up:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>`,
@@ -468,7 +510,6 @@ const IC = {
 };
 const ico = (k,s=16)=>`<span style="display:inline-flex;width:${s}px;height:${s}px;flex-shrink:0">${IC[k]}</span>`;
 
-// ── RENDER HELPER ────────────────────────────
 const inp = (label,key,type="text",disabled=false) =>
   `<div><label class="lbl">${label}</label><input type="${type}" value="${escHtml(S.form[key]||"")}" ${disabled?'disabled':''} data-key="${key}" class="form-inp" style="${disabled?'opacity:.5':''}"/></div>`;
 
@@ -594,11 +635,9 @@ window.loadPhoto=(id,inp)=>{
 window.delPhoto=(id)=>{ S[id]=null; savePhotos(); render(); };
 
 const sideTab=(id,lbl,ic)=>`<button class="side-tab ${S.section===id&&S.page==="edit"?"active":""}" onclick="navSection('${id}')">${ico(ic)} ${lbl}</button>`;
-const pageTab=(id,lbl)=>`<button class="tab-btn ${S.page===id?"active":""}" onclick="setPage('${id}')">${lbl}</button>`;
 
 window.setPage=id=>{ S.page=id; render(); };
 window.navSection=(id)=>{ S.section=id; S.page="edit"; render(); setTimeout(()=>{ const el=document.getElementById("sec-"+id); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },50); };
-window.toggleSB=()=>{ S.sidebar=!S.sidebar; render(); };
 
 // ── PREVIEW DOKUMEN HTML ─────────────────────
 function docHTML(fs){
@@ -771,7 +810,7 @@ window.sharePDF = async function() {
     }
 
     const fileName = buildFileName("pdf");
-    showToast("Memproses file PDF untuk dibagikan...");
+    showToast("Memproses PDF untuk dibagikan...");
 
     const opt = {
       margin:       [10, 10, 10, 10],
@@ -812,7 +851,7 @@ window.sharePDF = async function() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast("Fitur Share tidak didukung di browser ini, PDF diunduh otomatis ✓");
+      showToast("PDF diunduh otomatis ✓");
     }
   } catch (err) {
     if (err.name !== 'AbortError') {
@@ -823,26 +862,6 @@ window.sharePDF = async function() {
     S.shareLoading = false;
     render();
   }
-};
-
-// ── CETAK PDF (WINDOW PRINT) ─────────────────
-window.exportPDF=()=>{
-  const inner=document.getElementById("doc-preview");
-  if(!inner){ S.page="preview"; render(); showToast("Buka pratinjau dulu, lalu klik Cetak PDF lagi…"); return; }
-  let pw=document.getElementById("print-wrap");
-  if(!pw){ pw=document.createElement("div"); pw.id="print-wrap"; pw.style.display="none"; document.body.appendChild(pw); }
-  pw.innerHTML=inner.outerHTML;
-  
-  const prevTitle=document.title;
-  document.title=buildFileName("pdf");
-  
-  setTimeout(()=>{
-    window.print();
-    setTimeout(()=>{
-      document.title=prevTitle;
-      pw.innerHTML="";
-    },1500);
-  },800);
 };
 
 // ── TAMPILAN PROFILE SETUP ───────────────────
@@ -874,7 +893,7 @@ function renderProfileGate(){
       </div>
 
       <button class="btn-gold" style="width:100%;justify-content:center;padding:12px;margin-top:8px" onclick="completeProfileSetup()">${ico("chk",16)} Simpan &amp; Mulai Aplikasi</button>
-      <p style="font-size:11px;color:var(--txm);text-align:center;line-height:1.4">Nama dan NIP wajib diisi. Anda dapat memperbarui data ini kapan saja melalui menu Profil.</p>
+      <p style="font-size:11px;color:var(--txm);text-align:center;line-height:1.4">Nama dan NIP wajib diisi. Anda dapat memperbarui data ini kapan saja melalui tombol Profil.</p>
     </div>
   </div>
   <div id="toast" style="display:none"></div>
@@ -892,32 +911,27 @@ function render(){
   const dasar=getDasar(rhk,f,S.modul,S.sesi);
 
   document.getElementById("root").innerHTML = `
-  <div id="app-shell" style="min-height:100vh;display:flex;flex-direction:column">
+  <div id="app-shell" style="min-height:100vh;display:flex;flex-direction:column;padding-top:56px">
 
-    <!-- HEADER / TOPBAR -->
-    <header style="height:60px;background:rgba(13,15,17,.96);border-bottom:1px solid var(--bd);padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:200;backdrop-filter:blur(16px)">
-      <div style="display:flex;align-items:center;gap:10px">
-        <button onclick="toggleSB()" style="background:none;border:none;color:var(--txm);cursor:pointer;display:flex;padding:6px;border-radius:6px">${ico("menu",22)}</button>
-        <div style="width:34px;height:34px;background:linear-gradient(135deg,var(--gold),#8a5c10);border-radius:10px;display:flex;align-items:center;justify-content:center">${ico("pdf",18)}</div>
-        <div>
-          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px">AutoReport <span style="color:var(--gold)">Pro</span></div>
-          <div style="font-size:9px;color:var(--txm);letter-spacing:.14em;text-transform:uppercase">Smart Adaptive RHK · PWA</div>
-        </div>
+    <!-- HEADER MINIMALIS TIKED (SITUASI SCROLL TETAP ADA) -->
+    <header class="app-header">
+      <div class="logo-simple" onclick="setPage('edit')">
+        AutoReport
       </div>
 
-      <!-- DESKTOP TOP NAV -->
-      <div style="display:flex;gap:4px;background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:3px" class="desktop-tabs">
-        ${pageTab("edit","Edit")}${pageTab("preview","Pratinjau")}${pageTab("rhk","Daftar RHK")}
-      </div>
-
-      <!-- ACTION BUTTONS -->
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn-out" onclick="openProfileGate()" style="padding:8px 12px;min-height:38px">${ico("user",14)} <span class="desk-only">Profil</span></button>
-        <button class="btn-gold" onclick="sharePDF()" ${S.shareLoading?"disabled":""} style="padding:8px 14px;min-height:38px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff">
-          ${S.shareLoading?`<span class="spin-ico">${IC.spin}</span>`:`${ico("share",14)}`} <span class="desk-only">${S.shareLoading?"Membuat...":"Bagikan"}</span>
+      <!-- HANYA 3 MENU UTAMA: EDIT, BAGIKAN, PROFIL -->
+      <div class="hdr-actions">
+        <button class="hdr-btn ${S.page==='edit'?'active':''}" onclick="setPage('edit')">
+          ${ico("pencil", 16)} <span>Edit</span>
         </button>
-        <button class="btn-gold" onclick="exportPDF()" ${S.pdfLoading?"disabled":""} style="padding:8px 14px;min-height:38px">
-          ${S.pdfLoading?`<span class="spin-ico">${IC.spin}</span>`:`${ico("pdf",14)}`} <span class="desk-only">PDF</span>
+
+        <button class="hdr-btn btn-share-main" onclick="sharePDF()" ${S.shareLoading?"disabled":""}>
+          ${S.shareLoading ? `<span class="spin-ico">${IC.spin}</span>` : ico("share", 16)}
+          <span>${S.shareLoading ? "..." : "Bagikan"}</span>
+        </button>
+
+        <button class="hdr-btn" onclick="openProfileGate()">
+          ${ico("user", 16)} <span>Profil</span>
         </button>
       </div>
     </header>
@@ -925,12 +939,11 @@ function render(){
     <!-- MAIN BODY -->
     <div style="display:flex;flex:1;overflow:hidden">
 
-      <!-- SIDEBAR -->
-      ${S.sidebar?`
-      <aside id="sidebar" style="width:200px;background:var(--surf);border-right:1px solid var(--bd);flex-shrink:0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto">
+      <!-- SIDEBAR DESKTOP -->
+      <aside id="sidebar" style="width:200px;background:var(--surf);border-right:1px solid var(--bd);flex-shrink:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto">
         <div style="padding:16px 12px;display:flex;flex-direction:column;gap:4px">
           <p style="font-size:10px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.14em;padding:4px 8px 8px">Menu Utama</p>
-          <button class="side-tab ${S.page==="edit"?"active":""}" onclick="setPage('edit')">${ico("txt")} Edit Laporan</button>
+          <button class="side-tab ${S.page==="edit"?"active":""}" onclick="setPage('edit')">${ico("pencil")} Edit Laporan</button>
           <button class="side-tab ${S.page==="preview"?"active":""}" onclick="setPage('preview')">${ico("eye")} Pratinjau A4</button>
           <button class="side-tab ${S.page==="rhk"?"active":""}" onclick="setPage('rhk')">${ico("grid")} Daftar RHK</button>
           
@@ -950,7 +963,7 @@ function render(){
             <button class="btn-out" onclick="exportWord()" style="width:100%;justify-content:center">${ico("word",14)} Export Word</button>
           </div>
         </div>
-      </aside>`:""}
+      </aside>
 
       <!-- MAIN CONTENT -->
       <main style="flex:1;overflow:auto;padding:16px;display:flex;gap:20px;min-width:0;padding-bottom:80px">
@@ -1129,7 +1142,7 @@ function render(){
     <!-- NAVBAR BAWAH UNTUK HP -->
     <nav style="position:fixed;bottom:0;left:0;right:0;background:rgba(13,15,17,.98);border-top:1px solid var(--bd);padding:8px 12px;display:flex;justify-content:space-around;align-items:center;z-index:300;backdrop-filter:blur(16px)" id="mob-nav">
       <button onclick="setPage('edit')" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:${S.page==="edit"?"var(--gold)":"var(--txm)"}">
-        ${ico("txt",20)}<span style="font-size:10px;font-weight:700">EDIT</span>
+        ${ico("pencil",20)}<span style="font-size:10px;font-weight:700">EDIT</span>
       </button>
       <button onclick="setPage('preview')" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:${S.page==="preview"?"var(--gold)":"var(--txm)"}">
         ${ico("eye",20)}<span style="font-size:10px;font-weight:700">PRATINJAU</span>
@@ -1140,16 +1153,12 @@ function render(){
       <button onclick="sharePDF()" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:#25D366">
         ${ico("share",20)}<span style="font-size:10px;font-weight:700">BAGIKAN</span>
       </button>
-      <button onclick="exportPDF()" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--gold)">
-        ${ico("pdf",20)}<span style="font-size:10px;font-weight:700">CETAK</span>
-      </button>
     </nav>
 
   </div>
   <div id="toast" style="display:none"></div>
   `;
 
-  // Bind Form Inputs & Listeners
   document.querySelectorAll(".form-inp").forEach(el=>{
     el.addEventListener("input",e=>setQuiet(e.target.dataset.key,e.target.value));
   });
