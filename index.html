@@ -2,218 +2,162 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
-<title>AutoReport Pro — PKH</title>
-
-<!-- PWA Meta Tags -->
-<meta name="theme-color" content="#0d0f11"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0"/>
+<title>Eviden Helper — PKH</title>
+<meta name="description" content="Aplikasi jurnal, penyusun laporan, dan monitor eviden RHK ASN PPPK PKH — otomatis, cepat, dan siap dibagikan."/>
+<meta name="theme-color" content="#0F2A52"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png"/>
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="AutoReport PKH"/>
-<meta name="description" content="Aplikasi Pembuat Laporan Harian RHK Pendamping Sosial PKH Kemensos RI"/>
-
-<!-- Embedded Web App Manifest for PWABuilder / GitHub Pages -->
-<link rel="manifest" href="./manifest.json" />
-<link rel="icon" href="./icon-192.png" type="image/png" />
-<link rel="apple-touch-icon" href="./icon-192.png" />
-
-<!-- External Libraries -->
+<meta name="apple-mobile-web-app-title" content="Eviden Helper"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0d0f11;--surf:#161b22;--surfhi:#1c2128;
-  --bd:#21262d;--bd2:#30363d;
-  --tx:#f0f6fc;--txs:#cdd9e5;--txm:#8b949e;
-  --gold:#d4a853;--goldDim:rgba(212,168,83,0.12);--goldBd:rgba(212,168,83,0.28);
+  --bg:#F2F7FC;--surf:#ffffff;--surfhi:#EAF3FC;
+  --bd:#DCE8F5;--bd2:#C3D9EE;
+  --tx:#0F2A52;--txs:#3A5A82;--txm:#7091B3;
+  --gold:#0EA5C4;--goldDim:rgba(14,165,196,0.10);--goldBd:rgba(14,165,196,0.35);
+  --navy:#0F2A52;--navyhi:#123568;
 }
-body{
-  background:var(--bg);color:var(--tx);
-  font-family:'DM Sans',system-ui,-apple-system,sans-serif;
-  min-height:100vh;font-size:14px;
-  -webkit-tap-highlight-color:transparent;
-}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',system-ui,sans-serif;min-height:100vh;font-size:13px}
 ::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-thumb{background:#30363d;border-radius:99px}
-
-/* Element Form yang Mudah Ditotok di Layar HP */
-input,select,textarea{
-  font-family:inherit;background:#0d1117;border:1px solid var(--bd2);
-  color:var(--tx);border-radius:10px;padding:11px 14px;font-size:14px;
-  outline:none;width:100%;transition:border-color .15s, box-shadow .15s;
-  min-height:44px;
-}
-input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 2px var(--goldDim)}
-select{appearance:none;padding-right:36px;cursor:pointer}
-select option{background:#161b22;color:var(--tx)}
-textarea{resize:vertical;line-height:1.6;min-height:90px}
-input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.6);cursor:pointer}
-input[type=range]{accent-color:var(--gold);cursor:pointer;min-height:auto}
-
-label.photo-slot{
-  display:block;position:relative;background:#0d1117;border:1.5px dashed var(--bd2);
-  border-radius:10px;cursor:pointer;overflow:hidden;aspect-ratio:16/9;
-  transition:border-color .15s;
-}
+::-webkit-scrollbar-thumb{background:#C3D9EE;border-radius:99px}
+input,select,textarea{font-family:inherit;background:#ffffff;border:1px solid var(--bd2);color:var(--tx);border-radius:8px;padding:9px 12px;font-size:12px;outline:none;width:100%;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+select{appearance:none;padding-right:32px;cursor:pointer}
+select option{background:#ffffff}
+textarea{resize:vertical;line-height:1.7}
+input[type=date]::-webkit-calendar-picker-indicator{filter:none;cursor:pointer;opacity:.6}
+input[type=range]{accent-color:var(--gold);cursor:pointer}
+label.photo-slot{display:block;position:relative;background:var(--surfhi);border:1.5px dashed var(--bd2);border-radius:8px;cursor:pointer;overflow:hidden;aspect-ratio:16/9;transition:border-color .15s}
 label.photo-slot:hover{border-color:var(--gold)}
 label.photo-slot img{width:100%;height:100%;object-fit:cover;display:block}
-label.photo-slot .ph-inner{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:8px;color:var(--txm);
-}
-label.photo-slot .ph-del{
-  position:absolute;top:8px;right:8px;background:rgba(0,0,0,.8);border:none;
-  color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;
-  font-size:18px;display:flex;align-items:center;justify-content:center;
-  line-height:1;z-index:2;
-}
+label.photo-slot .ph-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--txm)}
+label.photo-slot .ph-del{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);border:none;color:#fff;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
 label.kop-slot{aspect-ratio:5/1}
-
-.card{background:var(--surf);border:1px solid var(--bd);border-radius:16px;padding:20px}
-.sec-hd{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--txs);text-transform:uppercase;letter-spacing:.12em;margin-bottom:16px}
-.lbl{font-size:11px;font-weight:700;color:var(--txs);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:6px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.fld{display:flex;flex-direction:column;gap:14px}
-.divider{height:1px;background:var(--bd);margin:16px 0}
-
-/* Tombol Ramah Sentuhan (Touch-Friendly) */
-.btn-gold{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:10px 18px;border-radius:10px;border:none;
-  background:linear-gradient(135deg,var(--gold),#8a5c10);color:#0d0f11;
-  font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;
-  transition:all .15s;min-height:44px;white-space:nowrap;
-}
-.btn-gold:active{transform:scale(.98);opacity:.9}
+.card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:20px}
+.sec-hd{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;color:var(--txs);text-transform:uppercase;letter-spacing:.12em;margin-bottom:16px}
+.lbl{font-size:10px;font-weight:700;color:var(--txs);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:5px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.fld{display:flex;flex-direction:column;gap:12px}
+.divider{height:1px;background:var(--bd);margin:14px 0}
+.btn-gold{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--gold),var(--navy));color:#ffffff;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s}
 .btn-gold:disabled{opacity:.65;cursor:not-allowed}
-
-.btn-out{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:10px 16px;border-radius:10px;border:1px solid var(--bd2);
-  background:transparent;color:var(--txs);font-size:12px;font-weight:700;
-  cursor:pointer;font-family:inherit;min-height:44px;white-space:nowrap;
-}
-.btn-out:active{background:rgba(255,255,255,.05)}
-
-.btn-ghost{
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  padding:8px 14px;border-radius:8px;border:1px solid var(--goldBd);
-  background:var(--goldDim);color:var(--gold);font-size:11px;
-  font-weight:700;cursor:pointer;font-family:inherit;min-height:36px;
-}
-
-.tab-btn{
-  display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;
-  border:none;cursor:pointer;font-family:inherit;background:transparent;
-  color:var(--txm);font-size:12px;font-weight:600;transition:all .15s;
-}
+.btn-out{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:1px solid var(--bd2);background:transparent;color:var(--txs);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:8px;border:1px solid var(--goldBd);background:var(--goldDim);color:var(--gold);font-size:10px;font-weight:700;cursor:pointer;font-family:inherit}
+.tab-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:7px;border:none;cursor:pointer;font-family:inherit;background:transparent;color:var(--txm);font-size:11px;font-weight:600;transition:all .15s}
 .tab-btn.active{background:var(--goldDim);color:var(--gold)}
-
-.side-tab{
-  display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;
-  border-radius:10px;border:none;cursor:pointer;background:transparent;
-  color:var(--txm);font-size:12px;font-weight:600;text-align:left;
-  transition:all .15s;border-left:3px solid transparent;font-family:inherit;
-}
+.side-tab{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:8px;border:none;cursor:pointer;background:transparent;color:var(--txm);font-size:11px;font-weight:600;text-align:left;transition:all .15s;border-left:2px solid transparent;font-family:inherit}
 .side-tab.active{background:var(--goldDim);color:var(--gold);border-left-color:var(--gold)}
 .side-tab:hover{color:var(--txs)}
-
-.rhk-card{
-  background:var(--surf);border:1px solid var(--bd);border-radius:16px;
-  padding:18px;cursor:pointer;transition:all .16s;
-}
+.rhk-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:18px;cursor:pointer;transition:all .16s}
 .rhk-card:hover,.rhk-card.active{border-color:var(--gold);background:var(--surfhi)}
-
-@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .fi{animation:fadein .22s ease}
-.spin-ico{display:inline-flex;width:16px;height:16px;animation:spin .8s linear infinite}
-
-.toast{
-  position:fixed;bottom:75px;left:50%;transform:translateX(-50%);
-  background:#1c2128;border:1px solid var(--goldBd);color:var(--gold);
-  padding:12px 24px;border-radius:99px;font-size:12px;font-weight:600;
-  z-index:9999;display:flex;align-items:center;gap:8px;
-  box-shadow:0 12px 36px rgba(0,0,0,.7);animation:fadein .22s ease;
-  white-space:nowrap;max-width:90vw;
-}
+.spin-ico{display:inline-flex;width:14px;height:14px;animation:spin .8s linear infinite}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surf);border:1px solid var(--goldBd);color:var(--navy);padding:10px 22px;border-radius:99px;font-size:12px;font-weight:600;z-index:999;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(15,42,82,.18);animation:fadein .22s ease;white-space:nowrap}
 .toast.err{border-color:#f85149;color:#f85149}
-
-/* Tampilan Dokumen Cetak A4 */
-#doc-preview-wrapper{
-  width:100%;overflow-x:auto;padding:10px 0;display:flex;justify-content:center;
-}
-#doc-preview{
-  width:210mm;min-height:297mm;background:white;color:#111;
-  padding:2.5cm;margin:0 auto;font-family:'Times New Roman',serif;
-  line-height:1.5;box-shadow:0 20px 60px rgba(0,0,0,.5);border-radius:4px;
-  box-sizing:border-box;
-}
+/* A4 document */
+#doc-preview{width:210mm;min-height:297mm;background:white;color:#111;padding:2cm;margin:0 auto;font-family:'Times New Roman',serif;line-height:1.5;box-shadow:0 24px 80px rgba(0,0,0,.6);border-radius:4px}
+/* Margin PDF (Bagikan) sekarang mengikuti padding bawaan div ini (1.5cm 2cm) — opsi margin html2pdf diset 0 */
+#doc-preview.export-mode{box-shadow:none!important;border-radius:0!important;padding-top:0!important;padding-bottom:0!important}
 .doc-sec-title{font-weight:bold;margin-bottom:6px;text-align:left}
 .doc-sec{margin-bottom:14px;page-break-inside:avoid;break-inside:avoid}
 .doc-sec-body{margin-left:0}
+/* subheading tidak boleh ditinggal sendirian di akhir halaman */
 .doc-subhd{font-weight:bold;font-style:normal;text-decoration:underline;margin-bottom:2px;page-break-after:avoid;break-after:avoid}
+/* paragraf isi: spasi 1,5 — justify — hanging indent untuk numbered list */
 .doc-para{text-align:justify;white-space:pre-wrap;line-height:1.5;margin-bottom:6px}
 .doc-num-wrap{display:table;width:100%;margin-bottom:4px}
 .doc-num-no{display:table-cell;width:1.6em;vertical-align:top;font-weight:normal}
 .doc-num-txt{display:table-cell;text-align:justify;line-height:1.5;vertical-align:top}
-.info-table{display:table;width:100%}
-.info-row{display:table-row}
-.info-lbl{display:table-cell;width:130px;font-weight:bold;vertical-align:top;padding-bottom:3px;line-height:1.5}
-.info-val{display:table-cell;vertical-align:top;padding-bottom:3px;line-height:1.5}
-
-.select-wrap{position:relative}
-.select-wrap::after{
-  content:'›';position:absolute;right:14px;top:50%;transform:translateY(-50%) rotate(90deg);
-  pointer-events:none;color:var(--txm);font-size:16px;font-weight:bold;
+.info-table{border-collapse:collapse;border:none;width:100%}
+.info-table td{border:none;padding-bottom:3px;vertical-align:top;line-height:1.5}
+.info-table td:first-child{width:130px;font-weight:bold}
+/* Lampiran foto: grid 2 kolom agar foto utama & pendukung berdekatan, idealnya 2 foto per halaman */
+.lampiran-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:flex-start}
+.lampiran-item{width:calc(50% - 7px);border:3px solid #e0e0e0;padding:6px;box-sizing:border-box;page-break-inside:avoid;break-inside:avoid;margin-bottom:14px}
+.lampiran-item img{width:100%;height:10.5cm;display:block;object-fit:contain;background:#fafafa}
+.lampiran-caption{font-size:.78em;margin-top:6px;font-style:normal;color:#555;text-align:center;line-height:1.4}
+@media(max-width:860px){
+  .lampiran-item{width:100%}
+  .lampiran-item img{height:auto;max-height:14cm}
 }
-
-/* Optimasi Layar HP */
 @media(max-width:860px){
   #sidebar{display:none!important}
-  .row2, .row3{grid-template-columns:1fr!important}
-  .card{padding:16px!important}
-  #doc-preview{padding:1.2cm}
-  .main-content{padding-bottom:80px!important}
-  /* Sembunyikan navigasi dobel: tab pil & tombol hamburger sudah diwakili navbar bawah */
-  .desktop-tabs{display:none!important}
-  .desk-only{display:none!important}
-  #hamburger-btn{display:none!important}
-}
-@media(min-width:861px){
-  /* Navbar bawah hanya untuk HP; di desktop sudah ada tab & sidebar */
-  #mob-nav{display:none!important}
-}
+  .preview-panel{display:none}
 
+  /* Perbesar teks dasar & elemen form agar mudah dibaca di HP */
+  body{font-size:15px}
+  .lbl{font-size:11.5px;margin-bottom:6px}
+  input,select,textarea{font-size:16px;padding:11px 13px;border-radius:10px}
+  .card{padding:16px;border-radius:12px}
+  .sec-hd{font-size:11px}
+  .btn-gold,.btn-out,.btn-ghost{font-size:13px;padding:10px 16px;min-height:44px}
+  .tab-btn{font-size:12px;padding:8px 12px}
+  .rhk-card{padding:16px}
+  .rhk-card p{font-size:13px!important}
+
+  /* Header: sembunyikan tab halaman & kontrol yang berat di layar kecil (digantikan bottom-nav) */
+  #app-shell > header{padding:0 12px;gap:8px}
+  #app-shell > header > div:nth-child(2){display:none!important}
+  #app-shell > header > div:first-child > div:last-child{display:none}
+  #app-shell > header .btn-out,#app-shell > header .btn-gold{display:none!important}
+  #app-shell > header .font-ctrl{display:none!important}
+
+  main{padding:14px!important;padding-bottom:88px!important}
+  .row2{grid-template-columns:1fr;gap:12px}
+  .row3{grid-template-columns:1fr;gap:10px}
+
+  /* Beri ruang di bawah agar tidak tertutup mobile bottom nav */
+  #mob-nav button{padding:6px 10px;min-height:52px;justify-content:center}
+  #mob-nav span{font-size:10px!important}
+
+  #doc-preview{transform-origin:top left;box-shadow:0 12px 40px rgba(0,0,0,.55)}
+}
+@media(max-width:420px){
+  body{font-size:14.5px}
+  .btn-gold,.btn-out,.btn-ghost{font-size:12.5px}
+}
+@media print{
+  /* Margin 2cm rata di semua sisi & semua halaman (termasuk halaman 1) — konsisten dgn padding #doc-preview di layar & margin PDF hasil Bagikan. */
+  @page{size:A4;margin:2cm}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:white!important;margin:0;padding:0}
+  #app-shell{display:none!important}
+  #print-wrap{display:block!important}
+  #doc-preview{width:100%!important;min-height:unset!important;padding:0!important;margin:0!important;box-shadow:none!important;border-radius:0!important;line-height:1.5!important}
+  .doc-sec{page-break-inside:avoid;break-inside:avoid}
+  .doc-sec-title{page-break-after:avoid;break-after:avoid}
+  .doc-subhd{page-break-after:avoid;break-after:avoid}
+  p,li,.doc-num-wrap{orphans:3;widows:3}
+  li{page-break-inside:avoid;break-inside:avoid}
+  table{page-break-inside:avoid;break-inside:avoid}
+  img{page-break-inside:avoid;break-inside:avoid;max-width:100%}
+  .page-break{page-break-before:always;break-before:always}
+  /* Lampiran: judul harus nempel langsung di atas foto */
+  #doc-preview > div:last-child { page-break-before:always; break-before:always; }
+  /* Seksi A. Pendahuluan tetap di halaman 1 bersama judul */
+  .doc-pendahuluan{page-break-before:avoid;break-before:avoid}
+}
+.select-wrap{position:relative}
+.select-wrap::after{content:'›';position:absolute;right:10px;top:50%;transform:translateY(-50%) rotate(90deg);pointer-events:none;color:var(--txm);font-size:14px}
 </style>
 </head>
 <body>
 <div id="root"></div>
+<div id="print-wrap" style="display:none"></div>
 
 <script type="module">
-// ── REGISTER SERVICE WORKER (PWA) ──────────
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    const swCode = `
-      const CACHE_NAME = 'autoreport-pkh-v2';
-      self.addEventListener('install', (e) => self.skipWaiting());
-      self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
-      self.addEventListener('fetch', (e) => {
-        e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-      });
-    `;
-    const blob = new Blob([swCode], { type: 'text/javascript' });
-    const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl).catch(()=>{});
-  });
-}
-
-// ── DATA MASTER PKH & RHK ───────────────────
+// ── DATA ──────────────────────────────────────
 const P2K2 = {
   "Modul 1: Pendidikan & Pengasuhan Anak":["Sesi 1: Menjadi Orang Tua yang Lebih Baik","Sesi 2: Memahami Perilaku Anak","Sesi 3: Cara Anak Usia Dini Belajar","Sesi 4: Membantu Anak Sukses di Sekolah"],
   "Modul 2: Ekonomi & Keuangan":["Sesi 5: Mengelola Keuangan Keluarga","Sesi 6: Cermat Meminjam dan Menabung","Sesi 7: Memulai Usaha"],
@@ -221,7 +165,6 @@ const P2K2 = {
   "Modul 4: Perlindungan Anak":["Sesi 11: Pencegahan Kekerasan pada Anak","Sesi 12: Penelantaran & Eksploitasi Anak"],
   "Modul 5: Kesejahteraan Sosial":["Sesi 13: Pelayanan Penyandang Disabilitas Berat","Sesi 14: Kesejahteraan Lanjut Usia"]
 };
-
 const RHK = [
   {id:1,no:1,title:"Penyaluran Bansos PKH",sub:"Tepat Sasaran & Jumlah",options:["Edukasi & sosialisasi pencairan tunai/non-tunai","Supervisi permasalahan bantuan sosial","Monitoring/Pemantauan penyaluran bantuan sosial"]},
   {id:2,no:2,title:"Pertemuan P2K2",sub:"Sesuai Ketentuan",options:["Melaksanakan Pertemuan P2K2 (FDS)"]},
@@ -234,62 +177,18 @@ const RHK = [
   {id:9,no:9,title:"Berita Baik Kemensos",sub:"Komunikasi Publik",options:["Penyebaran Berita Baik di Media Sosial"]}
 ];
 
-// ── PENAMAPALAN FILE (FORMAT: nama_rhk berapa_hari_tgl_bulan_tahun.pdf) ────────
-const BULAN_ID = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-const HARI_ID = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
-
-const toDate = d => {
-  if(!d) return "";
-  const parts = d.split("-");
-  if(parts.length === 3) {
-    const dt = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
-    return new Intl.DateTimeFormat("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(dt);
-  }
-  return d;
-};
-
+// ── HELPERS ──────────────────────────────────
+const toDate = d => d ? new Intl.DateTimeFormat("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(new Date(d)) : "";
 const lastWorkday = () => {
+  // Hari kerja terakhir bulan berjalan (Senin=1 s/d Jumat=5)
   const n=new Date(), ld=new Date(n.getFullYear(),n.getMonth()+1,0);
+  // Mundur sampai ketemu hari kerja (bukan Sabtu=6, bukan Minggu=0)
   while(ld.getDay()===0 || ld.getDay()===6) ld.setDate(ld.getDate()-1);
   return new Intl.DateTimeFormat("id-ID",{day:"numeric",month:"long",year:"numeric"}).format(ld);
 };
-
 const today = () => new Date().toISOString().split("T")[0];
 
-function buildFileName(ext) {
-  let nama = (S.form.nama || "Pendamping").trim();
-  const rhkNo = S.rhk ? S.rhk.no : 1;
-  
-  let hariStr = "", tglStr = "", bulanStr = "", tahunStr = "";
-  if (S.form.tgl_kegiatan) {
-    const parts = S.form.tgl_kegiatan.split("-");
-    if (parts.length === 3) {
-      const y = parseInt(parts[0], 10);
-      const m = parseInt(parts[1], 10);
-      const d = parseInt(parts[2], 10);
-      const dateObj = new Date(y, m - 1, d);
-      hariStr = HARI_ID[dateObj.getDay()] || "";
-      tglStr = String(d);
-      bulanStr = BULAN_ID[m - 1] || "";
-      tahunStr = String(y);
-    }
-  }
-  
-  if (!hariStr) {
-    const todayObj = new Date();
-    hariStr = HARI_ID[todayObj.getDay()];
-    tglStr = String(todayObj.getDate());
-    bulanStr = BULAN_ID[todayObj.getMonth()];
-    tahunStr = String(todayObj.getFullYear());
-  }
-
-  const clean = s => s.replace(/[/\\:*?"<>|]/g, "").replace(/\s+/g, "_").replace(/_+/g, "_").replace(/^_+|_+$/g, "");
-  
-  const rawName = `${nama}_RHK${rhkNo}_${hariStr}_${tglStr}_${bulanStr}_${tahunStr}`;
-  return `${clean(rawName)}.${ext}`;
-}
-
-// ── DASAR KEGIATAN ──────────────────────────
+// ── DASAR KEGIATAN DINAMIS ──────────────────
 function getDasar(rhk, f, modul, sesi) {
   const base = [
     `Rencana Hasil Kerja (RHK) ASN PPPK Dit. PSNK terkait ${rhk.title} — ${rhk.sub}.`,
@@ -309,7 +208,25 @@ function getDasar(rhk, f, modul, sesi) {
   return [...base, sp[rhk.no]||sp[9]];
 }
 
-// ── BUILDER NARASI AUTOMATIS ─────────────────
+// ── CAPTION FOTO OTOMATIS (menyesuaikan RHK / sub kegiatan) ─
+function photoCaption(rhk, f, modul, sesi){
+  const desa=f.desa||"...", grp=f.kelompok||"...";
+  switch(rhk.no){
+    case 1: return `Pendampingan penyaluran bantuan sosial PKH di wilayah ${f.wilayah||"dampingan"}`;
+    case 2: return `Pelaksanaan P2K2 — ${sesi} bersama Kelompok ${grp}, Desa ${desa}`;
+    case 3: return `Verifikasi komitmen & pendampingan KPM — ${f.kegiatan||rhk.title}`;
+    case 4: return `${f.kegiatan||rhk.title}${f.ppse_nama?` — KPM a.n. ${f.ppse_nama}`:""}`;
+    case 5: return `${f.kegiatan||rhk.title} di Desa ${desa}`;
+    case 6: return `Respon kasus/pengaduan — ${f.kegiatan||rhk.title}`;
+    case 7: return `Penyusunan laporan bulanan pelaksanaan PKH`;
+    case 8: return `${f.kegiatan||rhk.title}${f.sasaran?` bersama ${f.sasaran}`:""}`;
+    case 9: return `Publikasi Berita Baik Kemensos RI`;
+    default: return f.kegiatan||rhk.title;
+  }
+}
+
+// ── NARRATIVE BUILDER ────────────────────────
+// Flag: jika user sudah edit narasi secara manual, auto-fill tidak override
 let _narasiManual = false;
 
 function buildNarrative(rhk, f, modul, sesi) {
@@ -363,18 +280,27 @@ function buildNarrative(rhk, f, modul, sesi) {
   return {umum,tujuan,narasi,hasil};
 }
 
-// ── STATE APPLICATION ────────────────────────
+// ── STATE ───────────────────────────────────
 let S = {
-  page:"edit", section:"profil",
+  page:"home", section:"profil",
   rhk: RHK[0],
   modul: Object.keys(P2K2)[0],
   sesi: Object.values(P2K2)[0][0],
   fontSize: 11.5,
+  pdfLoading: false,
   shareLoading: false,
+  geminiKey: "",
+  aiLoading: {},
   sidebar: true,
+  showInstallBtn: false,
+  showIOSHint: false,
   profileGate: true,
-  fitToWidth: true,
-  desaList: [],
+  homeDate: today(),
+  homeNotes: {}, // diisi dari localStorage — lihat loadHomeNotes()
+  homeEntry: { time:"07:30", endTime:"", rhkId:RHK[0].id, workPlan:RHK[0].options[0], desa:"", sasaran:"", desc:"" },
+  eviden: { link:"", loading:false, error:"", data:null, bulan:new Date().getMonth()+1 },
+  villages: [], // [{nama:"Desa A", kelompok:["Kelompok 1", ...]}]
+  expandedVillage: null, // index desa yang sedang di-expand, null jika tidak ada
   kop:null, ttd:null, f1:null, f2:null, f3:null,
   form:{
     nama:"", nip:"",
@@ -384,7 +310,7 @@ let S = {
     tgl_kegiatan:today(),
     umum:"",tujuan:"",narasi:"",hasil:"",
     ppse_nik:"3506187009840002",ppse_nama:"KASEMAN",ppse_usia:"41",
-    ppse_pendidikan:"SLTP",ppse_alamat:"Dsn. Bobang RT 02 RW 09 Desa Bobang Kec. Ngadiluwih Kab. Kediri",
+    ppse_pendidikan:"STLP",ppse_alamat:"Dsn. Bobang RT 02 RW 09 Desa Bobang Kec. Ngadiluwih Kab. Kediri",
     ppse_pendapatan:"3.000.000",ppse_tanggungan:"2",ppse_bansos:"PBI, PKH, BPNT",
     ppse_bantuan_usaha:"-",ppse_usaha:"Ya",ppse_cluster:"Peternakan",
     ppse_produk:"Budidaya Kambing",ppse_produk_andalan:"Ya",
@@ -392,16 +318,21 @@ let S = {
   }
 };
 
+// Update field tanpa render (untuk input/textarea agar kursor tidak hilang)
 const NARASI_KEYS = ["umum","tujuan","narasi","hasil"];
 function setQuiet(k,v){
   S.form[k]=v;
+  // Jika user mengedit field narasi, tandai sebagai manual
   if(NARASI_KEYS.includes(k)) _narasiManual = true;
+  // Sinkronkan perubahan field profil (nama/nip/desa/kelompok) ke localStorage
   if(typeof PROFILE_KEYS!=="undefined" && PROFILE_KEYS.includes(k) && localStorage.getItem("autoreport_profile_done")==="1") saveProfile();
   autoNarrative();
+  // Patch hanya textarea narasi langsung ke DOM
   NARASI_KEYS.forEach(key=>{
     const el=document.querySelector(`.form-ta[data-key="${key}"]`);
     if(el && el!==document.activeElement) el.value=S.form[key]||"";
   });
+  // Update preview jika sedang di halaman preview
   if(S.page==="preview"){
     const prev=document.getElementById("doc-preview");
     if(prev){
@@ -412,13 +343,14 @@ function setQuiet(k,v){
     }
   }
 }
-
 function set(k,v){
   S.form[k]=v;
+  // Jika ganti field selain narasi, reset flag manual agar narasi ikut update
   if(!NARASI_KEYS.includes(k)) _narasiManual=false;
   autoNarrative();
   render();
 }
+function setState(k,v){ S[k]=v; render(); }
 
 let toastTimer=null;
 function showToast(msg,err=false){
@@ -427,11 +359,12 @@ function showToast(msg,err=false){
   el.textContent=msg; el.className="toast"+(err?" err":"");
   el.style.display="flex";
   if(toastTimer) clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>{ el.style.display="none"; },3200);
+  toastTimer=setTimeout(()=>{ el.style.display="none"; },3000);
 }
 
 function autoNarrative(){
   if(S.rhk.no===9) S.form.sasaran="Akun Media Sosial Kementerian Sosial Republik Indonesia";
+  // Jika narasi sudah diedit manual, jangan override kecuali force
   if(_narasiManual) return;
   const n=buildNarrative(S.rhk,S.form,S.modul,S.sesi);
   Object.assign(S.form,n);
@@ -439,7 +372,7 @@ function autoNarrative(){
 
 autoNarrative();
 
-// ── SVG ICONS ────────────────────────────────
+// ── ICONS (SVG strings) ──────────────────────
 const IC = {
   menu:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>`,
   user:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
@@ -450,20 +383,45 @@ const IC = {
   grid:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
   word:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
   pdf:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
-  share:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`,
   ref:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>`,
   chk:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`,
   up:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>`,
-  spin:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>`
+  spin:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>`,
+  share:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`,
+  gear:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+  plus:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+  trash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>`,
+  edit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>`,
+  village:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18"/><path d="M5 21V10l7-6 7 6v11"/><path d="M9 21v-6h6v6"/></svg>`,
+  home:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>`,
+  notebook:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h13a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4z"/><path d="M4 4v18"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/></svg>`,
+  cloud:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.3-2A5 5 0 0 0 6 18h11.5z"/></svg>`,
+  install:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="6" x2="12" y2="14"/><polyline points="9 11 12 14 15 11"/><line x1="9" y1="18" x2="15" y2="18"/></svg>`
 };
-const ico = (k,s=16)=>`<span style="display:inline-flex;width:${s}px;height:${s}px;flex-shrink:0">${IC[k]}</span>`;
+const ico = (k,s=14)=>`<span style="display:inline-flex;width:${s}px;height:${s}px;flex-shrink:0">${IC[k]}</span>`;
 
-// ── RENDER HELPER ────────────────────────────
+// ── RENDER HELPERS ───────────────────────────
 const inp = (label,key,type="text",disabled=false) =>
   `<div><label class="lbl">${label}</label><input type="${type}" value="${escHtml(S.form[key]||"")}" ${disabled?'disabled':''} data-key="${key}" class="form-inp" style="${disabled?'opacity:.5':''}"/></div>`;
 
-const ta = (label,key,rows=4) =>
+const ta = (label,key,rows=5) =>
   `<div><label class="lbl">${label}</label><textarea rows="${rows}" data-key="${key}" class="form-ta">${escHtml(S.form[key]||"")}</textarea></div>`;
+
+const taAI = (label,key,rows,subjudul) => {
+  const loading = !!(S.aiLoading && S.aiLoading[key]);
+  return `<div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px">
+      <label class="lbl" style="margin-bottom:0">${label}</label>
+      <button type="button" class="btn-ghost" style="padding:3px 9px;font-size:10px;gap:4px" onclick="generateNarasiAI('${key}',${escAttr(JSON.stringify(subjudul))})" ${loading?"disabled":""} title="Generate narasi bagian ini dengan AI (Gemini)">
+        ${loading?`<span class="spin-ico" style="width:11px;height:11px;display:inline-flex">${IC.spin}</span> Menyusun…`:`✨ AI`}
+      </button>
+    </div>
+    <textarea rows="${rows}" data-key="${key}" class="form-ta">${escHtml(S.form[key]||"")}</textarea>
+  </div>`;
+};
+
+const sel = (label,key,opts) =>
+  `<div><label class="lbl">${label}</label><div class="select-wrap"><select data-key="${key}" class="form-sel">${opts.map(([v,l])=>`<option value="${escAttr(v)}" ${S.form[key]===v?'selected':''}>${escHtml(l)}</option>`).join("")}</select></div></div>`;
 
 function escHtml(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function escAttr(s){ return String(s||"").replace(/"/g,"&quot;"); }
@@ -475,14 +433,13 @@ const photoSlot = (id,label,aspect="16/9")=>{
     <label class="photo-slot ${id==="kop"||id==="ttd"?"kop-slot":""}" style="aspect-ratio:${aspect}" id="slot-${id}">
       ${src
         ? `<img src="${src}"/><button class="ph-del" onclick="event.preventDefault();delPhoto('${id}')">×</button>`
-        : `<div class="ph-inner">${ico("up",22)}<span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">${label}</span></div>`
+        : `<div class="ph-inner">${ico("up",20)}<span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">${label}</span></div>`
       }
       <input type="file" accept="image/*" style="display:none" onchange="loadPhoto('${id}',this)"/>
     </label>
   </div>`;
 };
-
-// ── LOCAL STORAGE PERSISTENCE ────────────────
+// ── LOCAL STORAGE UNTUK FOTO PERMANEN ────────
 const PHOTO_KEYS = ["kop","ttd","f1","f2","f3"];
 function savePhotos(){
   PHOTO_KEYS.forEach(k=>{
@@ -500,14 +457,14 @@ function loadPhotos(){
     }catch(e){}
   });
 }
-loadPhotos();
+loadPhotos(); // muat saat halaman dibuka
 
-const PROFILE_KEYS = ["nama","nip","desa","kelompok"];
+// ── PROFIL PENGGUNA PERMANEN (localStorage) ──
+const PROFILE_KEYS = ["nama","nip","jabatan","kota","wilayah","desa","kelompok"];
 function saveProfile(){
   try{
     const p={}; PROFILE_KEYS.forEach(k=>p[k]=S.form[k]||"");
     localStorage.setItem("autoreport_profile", JSON.stringify(p));
-    localStorage.setItem("autoreport_desalist", JSON.stringify(S.desaList||[]));
     localStorage.setItem("autoreport_profile_done","1");
   }catch(e){}
 }
@@ -515,66 +472,196 @@ function loadProfile(){
   try{
     const raw=localStorage.getItem("autoreport_profile");
     if(raw){ const p=JSON.parse(raw); PROFILE_KEYS.forEach(k=>{ if(p[k]) S.form[k]=p[k]; }); }
-    const rawDesa=localStorage.getItem("autoreport_desalist");
-    if(rawDesa){ const dl=JSON.parse(rawDesa); if(Array.isArray(dl)) S.desaList=dl; }
     return localStorage.getItem("autoreport_profile_done")==="1";
   }catch(e){ return false; }
 }
-S.profileGate = !loadProfile();
+S.profileGate = !loadProfile(); // tampilkan gate hanya jika profil belum pernah disimpan
 
-// ── MANAJEMEN DESA & KELOMPOK ────────────────
-const MAX_KELOMPOK = 15;
-function persistDesa(){ if(localStorage.getItem("autoreport_profile_done")==="1") saveProfile(); }
-window.addDesa=()=>{ S.desaList.push({nama:"",kelompok:[""]}); render(); };
-window.removeDesa=(di)=>{ S.desaList.splice(di,1); persistDesa(); render(); };
-window.updDesaNama=(di,v)=>{ S.desaList[di].nama=v; persistDesa(); };
-window.addKelompok=(di)=>{ if(S.desaList[di].kelompok.length<MAX_KELOMPOK){ S.desaList[di].kelompok.push(""); render(); } };
-window.removeKelompok=(di,ki)=>{ S.desaList[di].kelompok.splice(ki,1); persistDesa(); render(); };
-window.updKelompok=(di,ki,v)=>{ S.desaList[di].kelompok[ki]=v; persistDesa(); };
+// ── DESA & KELOMPOK DAMPINGAN PERMANEN (localStorage) ──
+function saveVillages(){
+  try{ localStorage.setItem("autoreport_villages", JSON.stringify(S.villages)); }catch(e){}
+}
+function loadVillages(){
+  try{
+    const raw=localStorage.getItem("autoreport_villages");
+    if(raw){ const v=JSON.parse(raw); if(Array.isArray(v)) S.villages=v; }
+  }catch(e){}
+}
+loadVillages();
 
-function desaDropdownHTML(){
-  const f=S.form;
-  return `
-    <div class="row2">
-      <div><label class="lbl">Nama Desa</label><div class="select-wrap">
-        <select class="desa-sel"><option value="">- Pilih Desa -</option>${S.desaList.map(d=>`<option value="${escAttr(d.nama)}" ${f.desa===d.nama?"selected":""}>${escHtml(d.nama||"(tanpa nama)")}</option>`).join("")}</select>
-      </div></div>
-      <div><label class="lbl">Nama Kelompok</label><div class="select-wrap">
-        <select class="kelompok-sel"><option value="">- Pilih Kelompok -</option>${(S.desaList.find(d=>d.nama===f.desa)?.kelompok||[]).map(k=>`<option value="${escAttr(k)}" ${f.kelompok===k?"selected":""}>${escHtml(k||"(tanpa nama)")}</option>`).join("")}</select>
-      </div></div>
-    </div>`;
+// ── CATATAN & AGENDA/TIMELINE HARIAN — MENU HOME (localStorage) ──
+// Terpisah total dari struktur laporan RHK — murni catatan pribadi per-hari.
+// Struktur: { "YYYY-MM-DD": { timeline:[{id,time,rhkId,done}], notes:{rhkId:"teks"} } }
+const HOME_KEY = "autoreport_home_notes";
+function loadHomeNotes(){
+  try{
+    const raw = localStorage.getItem(HOME_KEY);
+    return raw ? JSON.parse(raw) : {};
+  }catch(e){ return {}; }
 }
-function desaManagerHTML(){
-  return `<div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <p class="lbl" style="margin:0">Desa &amp; Kelompok Dampingan</p>
-      <button type="button" class="btn-ghost" onclick="addDesa()">+ Desa</button>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      ${S.desaList.length? S.desaList.map((d,di)=>desaBlockHTML(d,di)).join("") : `<p style="font-size:12px;color:var(--txm)">Belum ada desa ditambahkan.</p>`}
-    </div>
-  </div>`;
+function saveHomeNotes(){
+  try{ localStorage.setItem(HOME_KEY, JSON.stringify(S.homeNotes)); }catch(e){}
 }
+function homeDay(dateStr){
+  if(!S.homeNotes[dateStr]) S.homeNotes[dateStr] = {timeline:[],notes:{}};
+  const d = S.homeNotes[dateStr];
+  if(!d.notes) d.notes={};
+  if(!Array.isArray(d.timeline)){ // migrasi format lama (planned/done) → timeline tanpa jam spesifik
+    const tl=[];
+    if(Array.isArray(d.planned)){
+      d.planned.forEach(id=>{
+        const cnt=(d.done&&d.done[id])||0;
+        const n=Math.max(cnt,1);
+        for(let i=0;i<n;i++) tl.push({id:"m"+id+"_"+i, time:"-", rhkId:id, done:cnt>0});
+      });
+    }
+    d.timeline=tl;
+    delete d.planned; delete d.done;
+  }
+  return d;
+}
+S.homeNotes = loadHomeNotes();
+function homeSortTimeline(day){ day.timeline.sort((a,b)=>(a.time||"").localeCompare(b.time||"")); }
 
-function desaBlockHTML(d,di){
-  return `<div style="background:#0d1117;border:1px solid var(--bd2);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px">
-    <div style="display:flex;gap:8px;align-items:center">
-      <input type="text" value="${escHtml(d.nama)}" placeholder="Nama Desa" oninput="updDesaNama(${di},this.value)" style="flex:1"/>
-      <button type="button" onclick="removeDesa(${di})" style="background:none;border:none;color:var(--txm);cursor:pointer;font-size:20px;line-height:1;padding:4px 8px">×</button>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:8px;padding-left:4px">
-      ${d.kelompok.map((k,ki)=>`
-      <div style="display:flex;gap:6px;align-items:center">
-        <span style="font-size:11px;color:var(--txm);width:18px;flex-shrink:0">${ki+1}.</span>
-        <input type="text" value="${escHtml(k)}" placeholder="Nama Kelompok" oninput="updKelompok(${di},${ki},this.value)" style="flex:1;font-size:13px"/>
-        <button type="button" onclick="removeKelompok(${di},${ki})" style="background:none;border:none;color:var(--txm);cursor:pointer;font-size:16px;padding:4px">×</button>
-      </div>`).join("")}
-      ${d.kelompok.length<MAX_KELOMPOK
-        ?`<button type="button" class="btn-ghost" style="align-self:flex-start;padding:6px 12px;margin-top:2px" onclick="addKelompok(${di})">+ Kelompok (${d.kelompok.length}/${MAX_KELOMPOK})</button>`
-        :`<p style="font-size:10px;color:var(--txm)">Maksimal ${MAX_KELOMPOK} kelompok tercapai</p>`}
-    </div>
-  </div>`;
+window.homeShiftDay=(delta)=>{
+  const d=new Date(S.homeDate+"T00:00:00"); d.setDate(d.getDate()+delta);
+  S.homeDate = d.toISOString().split("T")[0];
+  render();
+};
+window.homeSetDate=(v)=>{ if(v) S.homeDate=v; render(); };
+
+// Draft form "Tambah catatan jurnal" — field diperluas mengikuti skema Jurnal
+// Pendamping PKH (RHK, kegiatan spesifik, desa, sasaran, jam mulai-selesai, deskripsi).
+// Disimpan quiet di S.homeEntry supaya tidak kehilangan fokus saat mengetik.
+function setJEQuiet(k,v){ S.homeEntry[k]=v; }
+window.jeSelectRHK=(id)=>{
+  id=parseInt(id);
+  const r=RHK.find(x=>x.id===id); if(!r) return;
+  S.homeEntry.rhkId=id;
+  S.homeEntry.workPlan=r.options[0];
+  render();
+};
+window.jeSelectWorkPlan=(val)=>{ S.homeEntry.workPlan=val; };
+
+window.homeAddTimeline=()=>{
+  const je=S.homeEntry;
+  const rhkId=parseInt(je.rhkId); if(!rhkId) return;
+  const day=homeDay(S.homeDate);
+  const t=(je.time&&je.time.trim())?je.time.trim():"-";
+  day.timeline.push({
+    id:"t"+Date.now()+Math.random().toString(36).slice(2,7),
+    time:t, endTime:(je.endTime||"").trim(), rhkId,
+    workPlan:je.workPlan||"", desa:(je.desa||"").trim(), sasaran:(je.sasaran||"").trim(),
+    desc:(je.desc||"").trim(), done:false
+  });
+  homeSortTimeline(day);
+  saveHomeNotes();
+  // Reset draft (RHK tetap sama supaya cepat entri kegiatan serupa berikutnya)
+  S.homeEntry={ time:"07:30", endTime:"", rhkId, workPlan:je.workPlan, desa:"", sasaran:"", desc:"" };
+  showToast("Catatan jurnal tersimpan ✓");
+  render();
+};
+window.homeRemoveTimeline=(entryId)=>{
+  const day=homeDay(S.homeDate);
+  day.timeline=day.timeline.filter(e=>e.id!==entryId);
+  saveHomeNotes(); render();
+};
+window.homeToggleTimelineDone=(entryId)=>{
+  const day=homeDay(S.homeDate);
+  const e=day.timeline.find(x=>x.id===entryId);
+  if(e) e.done=!e.done;
+  saveHomeNotes(); render();
+};
+window.homeGoToForm=(id)=>{ pickRHK(id); };
+
+// ── MONITOR EVIDEN (fetch Google Apps Script berdasarkan folder Drive SKP) ──
+const EVIDEN_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwD1JwT8f5xTUbI6J4th-cmWeLVkh7qMxthMVG2pJdRiHRafxoZWPmdDX8vMpnBumsV/exec";
+const EVIDEN_LINK_KEY = "autoreport_eviden_link";
+function evNomorRhk(nama){ const m=String(nama).match(/\d+/); return m?parseInt(m[0],10):0; }
+function evNomorBulan(key){ const m=String(key).match(/^(\d+)/); return m?parseInt(m[1],10):0; }
+const EVIDEN_BULAN=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+function evNamaBulan(n){ return (n>=1&&n<=12)?EVIDEN_BULAN[n-1]:"-"; }
+
+window.setJEEvidenLink=(v)=>{ S.eviden.link=v; };
+window.fetchEviden=async(link)=>{
+  link=(link||S.eviden.link||"").trim();
+  if(!link){ showToast("Tempel link folder Drive dulu"); return; }
+  S.eviden.link=link; S.eviden.loading=true; S.eviden.error=""; render();
+  try{
+    const res=await fetch(EVIDEN_APPS_SCRIPT_URL+"?folder="+encodeURIComponent(link),{cache:"no-store"});
+    if(!res.ok) throw new Error("Respons tidak valid");
+    const json=await res.json();
+    if(json.error) throw new Error(json.error);
+    S.eviden.data=json.data;
+    S.eviden.bulan=new Date().getMonth()+1;
+    try{ localStorage.setItem(EVIDEN_LINK_KEY,link); }catch(e){}
+  }catch(err){
+    S.eviden.error="Gagal memuat data. Cek link folder atau koneksi internet.";
+  }finally{
+    S.eviden.loading=false; render();
+  }
+};
+window.evidenSetBulan=(v)=>{ S.eviden.bulan=parseInt(v); render(); };
+window.evidenGantiLink=()=>{ S.eviden.data=null; S.eviden.error=""; render(); };
+try{
+  const savedEvidenLink=localStorage.getItem(EVIDEN_LINK_KEY);
+  if(savedEvidenLink) S.eviden.link=savedEvidenLink;
+}catch(e){}
+
+// ── GEMINI API KEY (localStorage, per perangkat) ─
+function saveGeminiKey(v){
+  S.geminiKey=v||"";
+  try{ v?localStorage.setItem("autoreport_gemini_key",v):localStorage.removeItem("autoreport_gemini_key"); }catch(e){}
 }
+function loadGeminiKey(){
+  try{ S.geminiKey=localStorage.getItem("autoreport_gemini_key")||""; }catch(e){}
+}
+loadGeminiKey();
+
+function ensureCurrentDesaKelompok(){
+  // Pastikan f.desa & f.kelompok valid terhadap daftar desa yang tersimpan
+  if(!S.villages.length) return;
+  let v = S.villages.find(x=>x.nama===S.form.desa);
+  if(!v){ v=S.villages[0]; S.form.desa=v.nama; }
+  if(!v.kelompok.includes(S.form.kelompok)) S.form.kelompok = v.kelompok[0]||"";
+}
+ensureCurrentDesaKelompok();
+
+window.addVillage=()=>{
+  S.villages.push({nama:`Desa ${S.villages.length+1}`, kelompok:[]});
+  saveVillages(); render();
+};
+window.toggleVillageExpand=(idx)=>{
+  if(S.expandedVillage===idx){
+    S.expandedVillage=null;
+  }else{
+    S.expandedVillage=idx;
+  }
+  render();
+};
+window.removeVillage=(idx)=>{
+  S.villages.splice(idx,1);
+  saveVillages(); ensureCurrentDesaKelompok(); render();
+};
+window.updateVillageName=(idx,val)=>{
+  S.villages[idx].nama=val;
+  saveVillages();
+};
+window.addKelompok=(vIdx)=>{
+  const v=S.villages[vIdx];
+  v.kelompok.push(`Kelompok ${v.kelompok.length+1}`);
+  saveVillages(); render();
+};
+window.removeKelompok=(vIdx,kIdx)=>{
+  const v=S.villages[vIdx];
+  if(v.kelompok.length<=1){ showToast("Minimal 1 kelompok per desa",true); return; }
+  v.kelompok.splice(kIdx,1);
+  saveVillages(); render();
+};
+window.updateKelompok=(vIdx,kIdx,val)=>{
+  S.villages[vIdx].kelompok[kIdx]=val;
+  saveVillages();
+};
 
 window.completeProfileSetup=()=>{
   const f=S.form;
@@ -602,14 +689,16 @@ window.setPage=id=>{ S.page=id; render(); };
 window.navSection=(id)=>{ S.section=id; S.page="edit"; render(); setTimeout(()=>{ const el=document.getElementById("sec-"+id); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); },50); };
 window.toggleSB=()=>{ S.sidebar=!S.sidebar; render(); };
 
-// ── PREVIEW DOKUMEN HTML ─────────────────────
+// ── DOCUMENT PREVIEW HTML ───────────────────
 function docHTML(fs){
   const f=S.form, rhk=S.rhk, modul=S.modul, sesi=S.sesi;
   const dasar=getDasar(rhk,f,modul,sesi);
   const isPPSE=f.kegiatan?.toLowerCase().includes("ppse");
-  const infoRow=(l,v)=>`<div class="info-row"><div class="info-lbl">${l}</div><div class="info-val">: ${v}</div></div>`;
+  const infoRow=(l,v)=>`<tr><td style="width:120px;font-weight:bold;vertical-align:top;border:none;padding-bottom:4px">${l}</td><td style="vertical-align:top;border:none">: ${v}</td></tr>`;
 
+  // Helper: numbered paragraph dengan hanging indent benar
   const numP=(no,txt)=>`<div class="doc-num-wrap"><span class="doc-num-no">${no}.</span><span class="doc-num-txt">${txt}</span></div>`;
+  // Parse teks bernomor (format "1. teks\n2. teks") jadi blok hanging indent
   const parseNums=(raw)=>{
     const lines=raw.split(/\n/);
     const out=[];
@@ -625,8 +714,9 @@ function docHTML(fs){
   };
 
   return `<div id="doc-preview" style="font-size:${fs}pt;line-height:1.5">
+    <!-- KOP + JUDUL + PENDAHULUAN dalam satu blok agar tidak terpisah halaman -->
     <div class="doc-pendahuluan">
-    <!-- KOP HARIAN -->
+    <!-- KOP -->
     <div style="text-align:center;margin-bottom:14px">
       ${S.kop
         ? `<img src="${S.kop}" style="width:100%;display:block"/><div style="border-bottom:3px double black;margin-top:6px"></div>`
@@ -659,7 +749,7 @@ function docHTML(fs){
         }</p>
       </div>
     </div>
-    </div>
+    </div><!-- end doc-pendahuluan -->
 
     <!-- B. KEGIATAN -->
     <div class="doc-sec">
@@ -667,31 +757,31 @@ function docHTML(fs){
       <div class="doc-sec-body">
         <p style="font-style:normal;font-weight:bold;margin-bottom:6px;line-height:1.5">${rhk.no===2?sesi:f.kegiatan}</p>
         <p style="text-align:justify;margin-bottom:10px;line-height:1.5">${escHtml(f.narasi)}</p>
-        <div class="info-table">
+        <table class="info-table"><tbody>
           ${(rhk.no===8||rhk.no===9)?infoRow("Sasaran",escHtml(f.sasaran)):""}
           ${rhk.no===2?infoRow("Kelompok",escHtml(f.kelompok))+infoRow("Desa",escHtml(f.desa)):""}
           ${infoRow("Tempat",escHtml(f.tempat||"Lokasi Dampingan"))}
           ${infoRow("Wilayah",escHtml(f.wilayah))}
           ${infoRow("Waktu",toDate(f.tgl_kegiatan))}
-        </div>
+        </tbody></table>
         ${rhk.no===4&&isPPSE?`
         <div style="border:1px solid black;padding:14px;margin-top:16px">
           <p style="text-align:center;font-weight:bold;text-transform:uppercase;margin-bottom:14px;text-decoration:underline">INSTRUMEN ASESMEN KPM POTENSI GRADUASI — PROGRAM PPSE</p>
           <p style="font-weight:bold;margin-bottom:4px">A. IDENTITAS :</p>
-          <div class="info-table" style="margin-left:12px;margin-bottom:10px">
+          <table class="info-table" style="margin-left:12px;margin-bottom:10px"><tbody>
             ${infoRow("NIK",escHtml(f.ppse_nik))}${infoRow("Nama",escHtml(f.ppse_nama))}${infoRow("Usia",escHtml(f.ppse_usia)+" Tahun")}
             ${infoRow("Pendidikan",escHtml(f.ppse_pendidikan))}${infoRow("Alamat",escHtml(f.ppse_alamat))}
             ${infoRow("Pendapatan","Rp. "+escHtml(f.ppse_pendapatan)+"/bulan")}${infoRow("Tanggungan",escHtml(f.ppse_tanggungan)+" Jiwa")}
-          </div>
+          </tbody></table>
           <p style="font-weight:bold;margin-bottom:4px">B. BANSOS :</p>
-          <div class="info-table" style="margin-left:12px;margin-bottom:10px">
+          <table class="info-table" style="margin-left:12px;margin-bottom:10px"><tbody>
             ${infoRow("Jenis Bansos",escHtml(f.ppse_bansos))}${infoRow("Bantuan Usaha",escHtml(f.ppse_bantuan_usaha))}
-          </div>
+          </tbody></table>
           <p style="font-weight:bold;margin-bottom:4px">C. USAHA :</p>
-          <div class="info-table" style="margin-left:12px">
+          <table class="info-table" style="margin-left:12px"><tbody>
             ${infoRow("Memiliki Usaha",escHtml(f.ppse_usaha))}${infoRow("Cluster",escHtml(f.ppse_cluster))}
             ${infoRow("Produk",escHtml(f.ppse_produk))}${infoRow("Mulai",escHtml(f.ppse_mulai)+" ("+escHtml(f.ppse_lama)+")")}
-          </div>
+          </tbody></table>
         </div>`:""}
       </div>
     </div>
@@ -727,141 +817,262 @@ function docHTML(fs){
     <!-- FOTO LAMPIRAN -->
     ${(S.f1||S.f2||S.f3)?`
     <div style="page-break-before:always;page-break-inside:avoid;break-before:always">
-      <p style="font-weight:bold;text-decoration:underline;text-transform:uppercase;letter-spacing:2px;margin-bottom:20px;text-align:center">LAMPIRAN DOKUMENTASI</p>
-      ${[S.f1,S.f2,S.f3].filter(Boolean).map((f,i)=>`
-      <div style="margin-bottom:28px;display:block;width:100%;border:3px solid #e0e0e0;padding:8px;box-sizing:border-box;page-break-inside:avoid;break-inside:avoid">
-        <img src="${f}" style="width:100%;display:block;max-height:18cm;object-fit:contain"/>
-        <p style="font-size:.8em;margin-top:8px;font-style:normal;color:#555;text-align:center">Gambar ${i+1}: Dokumentasi pelaksanaan tugas pendampingan.</p>
-      </div>`).join("")}
+      <p style="font-weight:bold;text-decoration:underline;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;text-align:center">LAMPIRAN DOKUMENTASI</p>
+      <div class="lampiran-grid">
+        ${[S.f1,S.f2,S.f3].filter(Boolean).map((imgSrc,i)=>`
+        <div class="lampiran-item">
+          <img src="${imgSrc}"/>
+          <p class="lampiran-caption">Gambar ${i+1}. ${escHtml(photoCaption(rhk,f,modul,sesi))}.</p>
+        </div>`).join("")}
+      </div>
     </div>`:""}
   </div>`;
 }
 
-// ── EXPORT WORD (.doc) ────────────────────────
+// ── EXPORT WORD ──────────────────────────────
 window.exportWord=()=>{
-  const name=buildFileName("doc");
+  const name=`Laporan_RHK${S.rhk.no}_${S.form.nama}_${S.form.tgl_kegiatan}.doc`;
   const inner=document.getElementById("doc-preview");
   if(!inner){showToast("Buka tab Pratinjau dulu!",true);return;}
-  const html=`<html><head><meta charset="utf-8"><style>@page{size:A4;margin:2.5cm}body{font-family:'Times New Roman',serif;font-size:${S.fontSize}pt;line-height:1.5}table{width:100%;border-collapse:collapse}td,th{border:1px solid black;padding:6px;vertical-align:top}p{margin-bottom:6pt}</style></head><body>${inner.outerHTML}</body></html>`;
+  const html=`<html><head><meta charset="utf-8"><style>@page{size:A4;margin:2cm}body{font-family:'Times New Roman',serif;font-size:${S.fontSize}pt;line-height:1.5}table{width:100%;border-collapse:collapse}td,th{border:1px solid black;padding:6px;vertical-align:top}p{margin-bottom:6pt}</style></head><body>${inner.outerHTML}</body></html>`;
   const blob=new Blob(['\ufeff',html],{type:"application/msword"});
   const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   showToast("File Word berhasil diunduh ✓");
 };
 
-// ── SHARE PDF NATIVE (Web Share API) ─────────
-window.sharePDF = async function() {
-  if (S.shareLoading) return;
-  S.shareLoading = true;
-  render();
-
-  try {
-    // Selalu bangun salinan tersembunyi berlebar A4 penuh (210mm),
-    // supaya hasil capture TIDAK terpengaruh lebar layar/scroll horizontal
-    // pada layar HP (penyebab teks & foto terpotong sebelumnya).
-    const PDF_PX_WIDTH = 794; // ~210mm pada 96dpi
-    const tempContainer = document.createElement("div");
-    tempContainer.id = "temp-pdf-render";
-    tempContainer.style.position = "fixed";
-    tempContainer.style.left = "0";
-    tempContainer.style.top = "0";
-    tempContainer.style.width = PDF_PX_WIDTH + "px";
-    tempContainer.style.zIndex = "-1";
-    tempContainer.style.opacity = "0";
-    tempContainer.style.pointerEvents = "none";
-    tempContainer.innerHTML = docHTML(S.fontSize);
-    document.body.appendChild(tempContainer);
-    const prev = tempContainer.querySelector("#doc-preview");
-    prev.style.width = PDF_PX_WIDTH + "px";
-    prev.style.boxShadow = "none";
-    prev.style.padding = "0"; // margin diatur lewat opsi html2pdf di bawah, supaya berulang di SETIAP halaman (bukan cuma di awal/akhir dokumen)
-
-    const fileName = buildFileName("pdf");
-    showToast("Memproses file PDF untuk dibagikan...");
-
-    const opt = {
-      margin:       25, // 2.5cm di semua sisi, diterapkan ulang di tiap halaman
-      filename:     fileName,
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  {
-        scale: 2, useCORS: true, logging: false,
-        windowWidth: PDF_PX_WIDTH, width: PDF_PX_WIDTH,
-        scrollX: 0, scrollY: 0
-      },
-      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak:    { mode: ['css', 'legacy'], avoid: ['img', '.doc-sec', '.info-row'] }
-    };
-
-    const pdfBlob = await html2pdf().set(opt).from(prev).output('blob');
-    tempContainer.remove();
-
-    const pdfFile = new File([pdfBlob], fileName, { type: 'application/pdf' });
-
-    if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
-      await navigator.share({
-        title: fileName,
-        text: `Laporan Harian PKH — RHK ${S.rhk.no}`,
-        files: [pdfFile]
-      });
-      showToast("Laporan berhasil dibagikan ✓");
-    } else if (navigator.share) {
-      await navigator.share({
-        title: fileName,
-        text: `Laporan Harian PKH: ${fileName}`
-      });
-      showToast("Menu share berhasil dibuka ✓");
-    } else {
-      const url = URL.createObjectURL(pdfBlob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      showToast("Fitur Share tidak didukung di browser ini, PDF diunduh otomatis ✓");
-    }
-  } catch (err) {
-    if (err.name !== 'AbortError') {
-      console.error(err);
-      showToast("Gagal membagikan PDF: " + (err.message || err), true);
-    }
-  } finally {
-    S.shareLoading = false;
-    render();
+// ── FORMAT NAMA FILE ─────────────────────────
+function buildFileName(ext){
+  const HARI=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+  const BULAN=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  const nama=(S.form.nama||"Pendamping").trim();
+  const rhkNo=S.rhk.no;
+  // parse tanggal kegiatan (format YYYY-MM-DD)
+  let hariStr="", tglStr="";
+  if(S.form.tgl_kegiatan){
+    const [y,m,d]=S.form.tgl_kegiatan.split("-").map(Number);
+    hariStr=HARI[new Date(y,m-1,d).getDay()];
+    tglStr=`${d} ${BULAN[m-1]} ${y}`;
   }
+  // bersihkan karakter tidak valid untuk nama file
+  const clean=s=>s.replace(/[/\\:*?"<>|]/g,"");
+  return clean(`${nama}_RHK ${rhkNo}_${hariStr}_${tglStr}.${ext}`);
+}
+function buildFileNameNoExt(){ return buildFileName("x").replace(/\.x$/,""); }
+
+// ── PRINT PDF ────────────────────────────────
+window.exportPDF=()=>{
+  const inner=document.getElementById("doc-preview");
+  if(!inner){ S.page="preview"; render(); showToast("Buka pratinjau dulu, lalu klik Cetak PDF lagi…"); return; }
+  let pw=document.getElementById("print-wrap");
+  if(!pw){ pw=document.createElement("div"); pw.id="print-wrap"; pw.style.display="none"; document.body.appendChild(pw); }
+  pw.innerHTML=inner.outerHTML;
+  // Ubah judul halaman sementara agar nama file PDF di dialog cetak sesuai
+  const prevTitle=document.title;
+  document.title=buildFileName("pdf");
+  setTimeout(()=>{
+    window.print();
+    // Kembalikan judul dan bersihkan print-wrap setelah dialog cetak selesai
+    setTimeout(()=>{
+      document.title=prevTitle;
+      pw.innerHTML=""; // bersihkan agar foto tidak tertempel
+    },1500);
+  },800);
 };
 
-// ── TAMPILAN PROFILE SETUP ───────────────────
+// Tunggu semua <img> (kop, ttd, foto lampiran) benar-benar selesai dimuat & didekode
+// sebelum html2canvas mengambil snapshot — kalau tidak, foto sering muncul kosong di PDF
+// karena snapshot diambil sebelum gambar sempat ter-render.
+async function waitImagesLoaded(root){
+  const imgs = Array.from(root.querySelectorAll("img"));
+  await Promise.all(imgs.map(img=>{
+    if(img.complete && img.naturalWidth>0) return Promise.resolve();
+    return new Promise(res=>{
+      const done=()=>res();
+      img.addEventListener("load",done,{once:true});
+      img.addEventListener("error",done,{once:true});
+      setTimeout(done,4000); // pengaman agar tidak macet jika satu foto gagal
+    });
+  }));
+  // Beri browser satu frame tambahan untuk selesai melukis (decode) sebelum capture
+  await new Promise(res=>requestAnimationFrame(()=>requestAnimationFrame(res)));
+}
+
+// ── SHARE LAPORAN (Web Share API) ────────────
+window.shareReport=async()=>{
+  const inner=document.getElementById("doc-preview");
+  if(!inner){ S.page="preview"; render(); showToast("Buka pratinjau dulu, lalu tekan Bagikan lagi…"); return; }
+  if(S.shareLoading) return;
+  S.shareLoading=true; render();
+
+  const finish=()=>{ S.shareLoading=false; render(); };
+  const fileName=buildFileName("pdf");
+  const judul=buildFileNameNoExt(); // dipakai juga sbg title share & judul metadata PDF, agar nama file konsisten di semua aplikasi (termasuk Google Drive)
+
+  // Beberapa aplikasi (mis. Google Drive) menamai file hasil share berdasarkan
+  // document.title / metadata judul PDF, bukan hanya File.name — samakan semuanya.
+  const prevTitle=document.title;
+  document.title=judul;
+  // export-mode: hilangkan shadow/radius, dan hilangkan padding atas-bawah div saat capture —
+  // margin atas-bawah sekarang jadi tanggung jawab opsi margin html2pdf (diulang tiap halaman),
+  // bukan dibakar jadi padding di satu gambar panjang (itu penyebab margin hilang di halaman tengah dokumen).
+  inner.classList.add("export-mode");
+
+  try{
+    if(typeof html2pdf==="undefined") throw new Error("html2pdf tidak tersedia");
+
+    // Pastikan halaman preview sudah discroll ke atas & semua foto selesai dimuat —
+    // dua penyebab utama foto hilang / margin bergeser saat di-capture html2canvas.
+    window.scrollTo(0,0);
+    const mainEl=inner.closest("main"); if(mainEl) mainEl.scrollTop=0;
+    await waitImagesLoaded(inner);
+
+    // windowWidth & windowHeight dipaksa = ukuran asli #doc-preview (bukan ukuran jendela browser/HP saat ini).
+    // Sebelumnya cuma windowWidth+width yang diisi -> windowHeight ikut default ke tinggi jendela (window.innerHeight)
+    // yang jauh lebih pendek dari #doc-preview yang panjang (banyak halaman), sehingga capture-nya gagal/rusak
+    // dan proses Bagikan error. Skrng windowWidth+windowHeight dipasangkan agar capture selalu utuh & konsisten.
+    // scrollX/scrollY:0 mencegah html2canvas ikut menggeser hasil capture sesuai posisi scroll halaman saat ini
+    // (penyebab umum margin PDF jadi berantakan/foto terpotong).
+    const worker=html2pdf()
+      .set({
+        margin:[20,0],
+        filename:fileName,
+        image:{type:"jpeg",quality:0.95},
+        html2canvas:{scale:2,useCORS:true,allowTaint:true,backgroundColor:"#ffffff",scrollX:0,scrollY:0,windowWidth:inner.scrollWidth,windowHeight:inner.scrollHeight},
+        jsPDF:{unit:"mm",format:"a4",orientation:"portrait"},
+        pagebreak:{mode:["css","legacy"]}
+      })
+      .from(inner);
+
+    const pdfBlob=await worker.outputPdf("blob");
+    const file=new File([pdfBlob],fileName,{type:"application/pdf"});
+
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({
+        files:[file],
+        title:judul,
+        text:judul
+      });
+      showToast("Laporan berhasil dibagikan ✓");
+    } else if(navigator.share){
+      // Perangkat tidak mendukung share file — bagikan sebagai teks & tetap unduh PDF-nya
+      await navigator.share({ title:judul, text:judul });
+      const a=document.createElement("a"); a.href=URL.createObjectURL(pdfBlob); a.download=fileName;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      showToast("PDF diunduh — silakan bagikan manual dari folder unduhan");
+    } else {
+      // Browser tidak mendukung Web Share API sama sekali — unduh saja
+      const a=document.createElement("a"); a.href=URL.createObjectURL(pdfBlob); a.download=fileName;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      showToast("Perangkat tidak mendukung fitur Bagikan — PDF diunduh");
+    }
+  }catch(err){
+    if(err && err.name==="AbortError"){ /* user membatalkan share sheet */ }
+    else{ console.error(err); showToast("Gagal membagikan laporan, coba lagi",true); }
+  }
+  document.title=prevTitle;
+  inner.classList.remove("export-mode");
+  finish();
+};
+
+// ── LAYAR PERMINTAAN PROFIL DI AWAL ──────────
+window.closePengaturan=()=>{
+  const f=S.form;
+  if(!f.nama || !f.nama.trim() || !f.nip || !f.nip.trim()){
+    showToast("Nama Lengkap dan NIP wajib diisi",true);
+    return;
+  }
+  saveProfile();
+  S.profileGate=false;
+  render();
+};
+
 function renderProfileGate(){
   const f=S.form;
+  const firstTime = localStorage.getItem("autoreport_profile_done")!=="1";
   document.getElementById("root").innerHTML = `
-  <div class="fi" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px 16px">
-    <div class="card" style="width:100%;max-width:460px;display:flex;flex-direction:column;gap:16px">
-      <div style="text-align:center;margin-bottom:4px">
-        <div style="width:48px;height:48px;background:linear-gradient(135deg,var(--gold),#8a5c10);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">${ico("user",24)}</div>
-        <p style="font-family:'Playfair Display',serif;font-weight:700;font-size:19px">Lengkapi Profil Anda</p>
-        <p style="font-size:12px;color:var(--txm);margin-top:6px;line-height:1.5">Data tersimpan di perangkat Anda dan otomatis digunakan di setiap laporan harian PKH.</p>
+  <div class="fi" style="min-height:100vh;padding:24px;display:flex;justify-content:center">
+    <div style="width:100%;max-width:520px;display:flex;flex-direction:column;gap:16px">
+
+      <div style="display:flex;align-items:center;gap:12px;${firstTime?"justify-content:center;text-align:center;flex-direction:column":""}">
+        <div style="width:44px;height:44px;background:linear-gradient(135deg,var(--gold),var(--navy));border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">${ico("gear",22)}</div>
+        <div style="flex:1">
+          <p style="font-family:'Playfair Display',serif;font-weight:700;font-size:17px">${firstTime?"Lengkapi Profil Anda":"Pengaturan"}</p>
+          <p style="font-size:11px;color:var(--txm);margin-top:2px">Profil, desa &amp; kelompok dampingan, tanda tangan, dan kop surat — tersimpan otomatis di perangkat ini.</p>
+        </div>
+        ${!firstTime?`<button class="btn-out" style="padding:9px" onclick="closePengaturan()" title="Tutup">✕</button>`:""}
       </div>
 
-      <div class="fld">
-        ${inp("Nama Lengkap","nama")}
-        ${inp("NIP","nip")}
+      <!-- PROFIL PENGGUNA -->
+      <div class="card">
+        <div class="sec-hd">${ico("user")} Profil Pengguna</div>
+        <div class="fld">
+          ${inp("Nama Lengkap","nama")}
+          <div class="row2">${inp("NIP","nip")}${inp("Jabatan","jabatan")}</div>
+          <div class="row2">${inp("Kota","kota")}${inp("Tgl. Laporan","tgl_laporan")}</div>
+          ${inp("Wilayah Dampingan","wilayah")}
+        </div>
       </div>
 
-      <div class="divider"></div>
-
-      ${desaManagerHTML()}
-
-      <div class="divider"></div>
-
-      <div class="row2">
-        ${photoSlot("ttd","Tanda Tangan","3/1")}
-        ${photoSlot("kop","Kop Surat","5/1")}
+      <!-- DESA & KELOMPOK -->
+      <div class="card">
+        <div class="sec-hd" style="justify-content:space-between">
+          <span style="display:flex;align-items:center;gap:8px">${ico("village")} Desa &amp; Kelompok Dampingan</span>
+          <button class="btn-ghost" onclick="addVillage()">${ico("plus",12)} Tambah Desa</button>
+        </div>
+        <div class="fld">
+          ${S.villages.length===0?`<p style="font-size:11px;color:var(--txm);line-height:1.6">Belum ada desa dampingan. Klik <b>Tambah Desa</b> untuk menambahkan desa dan kelompok dampingan. Desa &amp; kelompok ini akan muncul sebagai pilihan dropdown di menu Isi Form.</p>`:""}
+          ${S.villages.map((v,vi)=>{
+            const isExpanded = S.expandedVillage === vi;
+            return `
+          <div style="background:var(--surfhi);border:1px solid var(--bd);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="text" class="village-name-inp" data-vidx="${vi}" value="${escAttr(v.nama)}" placeholder="Nama Desa" style="flex:1"/>
+              <button onclick="toggleVillageExpand(${vi})" style="padding:9px;flex-shrink:0;background:transparent;border:1px solid var(--bd2);border-radius:8px;color:var(--txm);cursor:pointer" title="${isExpanded?"Sembunyikan kelompok":"Lihat kelompok"}">${isExpanded?"▼":"▶"}</button>
+              <button class="btn-out" style="padding:9px;color:#f85149;border-color:#f85149;flex-shrink:0" onclick="removeVillage(${vi})" title="Hapus Desa">${ico("trash",13)}</button>
+            </div>
+            ${isExpanded?`
+            <div style="display:flex;flex-direction:column;gap:6px;padding-top:6px;border-top:1px solid var(--bd)">
+              <label class="lbl">Kelompok (${v.kelompok.length} kelompok)</label>
+              ${v.kelompok.length===0?`<p style="font-size:11px;color:var(--txm);padding:8px;background:rgba(212,168,83,0.08);border-radius:6px">Belum ada kelompok. Klik tombol di bawah untuk menambahkan kelompok pertama.</p>`:""}
+              ${v.kelompok.map((k,ki)=>`
+              <div style="display:flex;gap:6px">
+                <input type="text" class="kelompok-inp" data-vidx="${vi}" data-kidx="${ki}" value="${escAttr(k)}" style="flex:1"/>
+                <button class="btn-out" style="padding:9px;flex-shrink:0" onclick="removeKelompok(${vi},${ki})" title="Hapus Kelompok">${ico("trash",12)}</button>
+              </div>`).join("")}
+              <button class="btn-ghost" style="align-self:flex-start" onclick="addKelompok(${vi})">${ico("plus",12)} Tambah Kelompok</button>
+            </div>`:""}
+          </div>`;
+          }).join("")}
+        </div>
       </div>
 
-      <button class="btn-gold" style="width:100%;justify-content:center;padding:12px;margin-top:8px" onclick="completeProfileSetup()">${ico("chk",16)} Simpan &amp; Mulai Aplikasi</button>
-      <p style="font-size:11px;color:var(--txm);text-align:center;line-height:1.4">Nama dan NIP wajib diisi. Anda dapat memperbarui data ini kapan saja melalui menu Profil.</p>
+      <!-- TANDA TANGAN & KOP SURAT -->
+      <div class="card">
+        <div class="sec-hd">${ico("edit")} Tanda Tangan &amp; Kop Surat</div>
+        <div class="row2">
+          ${photoSlot("ttd","Tanda Tangan","3/1")}
+          ${photoSlot("kop","Kop Surat","5/1")}
+        </div>
+      </div>
+
+      <!-- GEMINI API KEY -->
+      <div class="card">
+        <div class="sec-hd">✨ Generate Narasi dengan AI (Gemini)</div>
+        <div class="fld">
+          <div>
+            <label class="lbl">Gemini API Key</label>
+            <input type="password" class="gemini-key-inp" value="${escAttr(S.geminiKey)}" placeholder="Tempel API Key Gemini Anda di sini"/>
+          </div>
+          <p style="font-size:10px;color:var(--txm);line-height:1.6">
+            API Key ini hanya tersimpan di perangkat Anda sendiri (tidak dikirim ke siapa pun selain Google), dan dipakai untuk tombol ✨ AI di tiap kotak Narasi Laporan. Dapatkan API Key gratis di
+            <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:var(--gold)">aistudio.google.com/apikey</a>.
+          </p>
+        </div>
+      </div>
+
+      <button class="btn-gold" style="width:100%;justify-content:center;padding:11px" onclick="completeProfileSetup()">${ico("chk",14)} ${firstTime?"Simpan & Mulai":"Simpan Pengaturan"}</button>
+      <p style="font-size:10px;color:var(--txm);text-align:center">Nama dan NIP wajib diisi. Anda dapat mengubah pengaturan ini kapan saja.</p>
     </div>
   </div>
   <div id="toast" style="display:none"></div>
@@ -870,9 +1081,16 @@ function renderProfileGate(){
   document.querySelectorAll(".form-inp").forEach(el=>{
     el.addEventListener("input",e=>setQuiet(e.target.dataset.key,e.target.value));
   });
+  document.querySelectorAll(".village-name-inp").forEach(el=>{
+    el.addEventListener("input",e=>updateVillageName(parseInt(e.target.dataset.vidx),e.target.value));
+  });
+  document.querySelectorAll(".kelompok-inp").forEach(el=>{
+    el.addEventListener("input",e=>updateKelompok(parseInt(e.target.dataset.vidx),parseInt(e.target.dataset.kidx),e.target.value));
+  });
+  document.querySelector(".gemini-key-inp")?.addEventListener("input",e=>saveGeminiKey(e.target.value));
 }
 
-// ── UTAMA: RENDER APLIKASI ───────────────────
+// ── MAIN RENDER ──────────────────────────────
 function render(){
   if(S.profileGate){ renderProfileGate(); return; }
   const f=S.form, rhk=S.rhk;
@@ -881,68 +1099,228 @@ function render(){
   document.getElementById("root").innerHTML = `
   <div id="app-shell" style="min-height:100vh;display:flex;flex-direction:column">
 
-    <!-- HEADER / TOPBAR -->
-    <header style="height:60px;background:rgba(13,15,17,.96);border-bottom:1px solid var(--bd);padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:200;backdrop-filter:blur(16px)">
+    <!-- TOPBAR -->
+    <header style="height:56px;background:rgba(15,42,82,.96);border-bottom:1px solid var(--navyhi);padding:0 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:200;backdrop-filter:blur(16px)">
       <div style="display:flex;align-items:center;gap:10px">
-        <button id="hamburger-btn" onclick="toggleSB()" style="background:none;border:none;color:var(--txm);cursor:pointer;display:flex;padding:6px;border-radius:6px">${ico("menu",22)}</button>
-        <div style="width:40px;height:40px;background:linear-gradient(135deg,var(--gold),#8a5c10);border-radius:10px;display:flex;align-items:center;justify-content:center">${ico("pdf",20)}</div>
+        <button onclick="toggleSB()" style="background:none;border:none;color:#7FB8DD;cursor:pointer;display:flex;padding:6px;border-radius:6px">${ico("menu",20)}</button>
+        <div style="width:32px;height:32px;border-radius:8px;overflow:hidden;flex-shrink:0"><img src="icons/icon-192.png" alt="Eviden Helper" style="width:100%;height:100%;object-fit:cover;display:block"/></div>
+        <!-- Nama & tagline aplikasi disembunyikan agar tampilan lebih bersih (kode tetap ada) -->
+        <div style="display:none">
+          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:15px">Eviden <span style="color:var(--gold)">Helper</span></div>
+          <div style="font-size:9px;color:var(--txm);letter-spacing:.14em;text-transform:uppercase">Smart Adaptive RHK · v38</div>
+        </div>
       </div>
-
-      <!-- DESKTOP TOP NAV -->
-      <div style="display:flex;gap:4px;background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:3px" class="desktop-tabs">
-        ${pageTab("edit","Edit")}${pageTab("preview","Pratinjau")}${pageTab("rhk","Daftar RHK")}
+      <div style="display:flex;gap:3px;background:rgba(255,255,255,.08);border:1px solid var(--navyhi);border-radius:10px;padding:3px">
+        ${pageTab("home","Jurnal")}${pageTab("edit","Isi Form")}${pageTab("preview","Preview")}<span style="display:none">${pageTab("rhk","Daftar RHK")}</span>
       </div>
-
-      <!-- ACTION BUTTONS -->
       <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn-out" onclick="openProfileGate()" style="padding:8px 12px;min-height:38px">${ico("user",14)} <span class="desk-only">Profil</span></button>
-        <button class="btn-gold" onclick="sharePDF()" ${S.shareLoading?"disabled":""} style="padding:8px 14px;min-height:38px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff">
-          ${S.shareLoading?`<span class="spin-ico">${IC.spin}</span>`:`${ico("share",14)}`} <span class="desk-only">${S.shareLoading?"Membuat...":"Bagikan"}</span>
+        <div class="font-ctrl" style="display:flex;align-items:center;gap:8px;background:var(--surf);border:1px solid var(--bd);border-radius:8px;padding:5px 12px">
+          <span style="font-size:10px;color:var(--txm);font-weight:600">Font</span>
+          <input type="range" min="8" max="16" step=".5" value="${S.fontSize}" oninput="S.fontSize=parseFloat(this.value);render()" style="width:70px"/>
+          <span style="font-size:11px;color:var(--gold);font-weight:700;min-width:28px">${S.fontSize}pt</span>
+        </div>
+        <button class="btn-out" onclick="openProfileGate()" title="Pengaturan" style="padding:9px">${ico("gear",16)}</button>
+        ${S.showInstallBtn?`<button class="btn-out" onclick="installApp()" title="Instal aplikasi ke perangkat" style="color:var(--gold);border-color:var(--goldBd)">${ico("install",15)} Instal Aplikasi</button>`:""}
+        <!-- Export PDF disembunyikan (fungsi tetap tersedia), cukup gunakan tombol Bagikan -->
+        <button class="btn-out" onclick="exportWord()">${ico("word")} Word</button>
+        <button class="btn-gold" onclick="shareReport()" title="Bagikan Laporan" ${S.shareLoading?"disabled":""}>
+          ${S.shareLoading?`<span class="spin-ico">${IC.spin}</span>`:ico("share",14)} Bagikan
+        </button>
+        <button class="btn-out" onclick="exportPDF()" ${S.pdfLoading?"disabled":""} style="display:none">
+          ${S.pdfLoading?`<span class="spin-ico">${IC.spin}</span> Memproses…`:`${ico("pdf")} Cetak PDF`}
         </button>
       </div>
     </header>
 
-    <!-- MAIN BODY -->
+    <!-- BODY -->
     <div style="display:flex;flex:1;overflow:hidden">
 
       <!-- SIDEBAR -->
       ${S.sidebar?`
-      <aside id="sidebar" style="width:200px;background:var(--surf);border-right:1px solid var(--bd);flex-shrink:0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto">
-        <div style="padding:16px 12px;display:flex;flex-direction:column;gap:4px">
-          <p style="font-size:10px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.14em;padding:4px 8px 8px">Menu Utama</p>
-          <button class="side-tab ${S.page==="edit"?"active":""}" onclick="setPage('edit')">${ico("txt")} Edit Laporan</button>
-          <button class="side-tab ${S.page==="preview"?"active":""}" onclick="setPage('preview')">${ico("eye")} Pratinjau A4</button>
-          <button class="side-tab ${S.page==="rhk"?"active":""}" onclick="setPage('rhk')">${ico("grid")} Daftar RHK</button>
-          
+      <aside id="sidebar" style="width:192px;background:var(--surf);border-right:1px solid var(--bd);flex-shrink:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto">
+        <div style="padding:14px 10px;display:flex;flex-direction:column;gap:2px">
+          <p style="font-size:9px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.14em;padding:4px 10px 8px">Halaman</p>
+          <button class="side-tab ${S.page==="home"?"active":""}" onclick="setPage('home')">${ico("notebook")} Jurnal</button>
+          <button class="side-tab ${S.page==="edit"?"active":""}" onclick="setPage('edit')">${ico("txt")} Isi Form</button>
+          <button class="side-tab ${S.page==="preview"?"active":""}" onclick="setPage('preview')">${ico("eye")} Preview</button>
+          <button class="side-tab" onclick="openProfileGate()">${ico("gear")} Pengaturan</button>
+          <button class="side-tab ${S.page==="rhk"?"active":""}" onclick="setPage('rhk')" style="display:none">${ico("grid")} Daftar RHK</button>
           <div class="divider"></div>
-          <p style="font-size:10px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.14em;padding:4px 8px 8px">Bagian Form</p>
+          <p style="font-size:9px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.14em;padding:4px 10px 8px">Bagian Form</p>
+          <span style="display:none">${sideTab("profil","Profil","user")}</span>
           ${sideTab("rhk2","RHK","grid")}
           ${sideTab("lokasi","Lokasi","map")}
-          ${sideTab("media","Foto","img")}
+          ${sideTab("media","Media","img")}
           ${sideTab("narasi","Narasi","txt")}
-          
           <div class="divider"></div>
           <div style="padding:0 2px;display:flex;flex-direction:column;gap:8px">
-            <button class="btn-gold" onclick="sharePDF()" style="width:100%;justify-content:center;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff" ${S.shareLoading?"disabled":""}>
-              ${S.shareLoading?`<span class="spin-ico">${IC.spin}</span>`:`${ico("share",14)}`} Bagikan PDF
+            <button class="btn-out" onclick="exportWord()" style="width:100%;justify-content:center">${ico("word",13)} Export Word</button>
+            <button class="btn-gold" onclick="shareReport()" style="width:100%;justify-content:center" ${S.shareLoading?"disabled":""}>
+              ${S.shareLoading?`<span class="spin-ico">${IC.spin}</span>`:ico("share",14)} ${S.shareLoading?"Menyiapkan…":"Bagikan"}
             </button>
-            <button class="btn-out" onclick="exportWord()" style="width:100%;justify-content:center">${ico("word",14)} Export Word</button>
+            <button class="btn-gold" onclick="exportPDF()" style="width:100%;justify-content:center;display:none" ${S.pdfLoading?"disabled":""}>
+              ${S.pdfLoading?`<span class="spin-ico">${IC.spin}</span>`:`${ico("pdf",13)}`} ${S.pdfLoading?"Memproses…":"Cetak PDF"}
+            </button>
           </div>
         </div>
       </aside>`:""}
 
-      <!-- MAIN CONTENT -->
-      <main class="main-content" style="flex:1;overflow:auto;padding:16px;display:flex;gap:20px;min-width:0">
+      <!-- MAIN -->
+      <main style="flex:1;overflow:auto;padding:20px;display:flex;gap:20px;min-width:0">
+
+        ${S.page==="home"?`
+        <!-- JURNAL PAGE — jurnal harian pendamping + monitor eviden, terpisah dari struktur laporan -->
+        <div class="fi" style="width:100%;max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:16px">
+
+          <!-- PROFIL -->
+          <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <div style="display:flex;align-items:center;gap:12px;min-width:0">
+              <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--navy));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#ffffff;flex-shrink:0">${escHtml((f.nama||"?").trim().charAt(0).toUpperCase()||"?")}</div>
+              <div style="min-width:0">
+                <p style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Halo, ${escHtml((f.nama||"Pendamping PKH").toUpperCase())} 👋</p>
+                <p style="font-size:11px;color:var(--txm);margin-top:2px">Jurnal Pendamping · Eviden Helper</p>
+              </div>
+            </div>
+            <button class="btn-out" onclick="openProfileGate()" style="padding:9px;flex-shrink:0" title="Pengaturan">${ico("gear",16)}</button>
+          </div>
+
+          <!-- AGENDA / TIMELINE HARIAN (buku harian, bisa digeser ke tanggal sebelumnya) -->
+          ${(()=>{
+            const day = homeDay(S.homeDate);
+            const isToday = S.homeDate===today();
+            const dLabel = new Intl.DateTimeFormat("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(new Date(S.homeDate+"T00:00:00"));
+            const doneCount = day.timeline.filter(e=>e.done).length;
+            const je=S.homeEntry;
+            const jeRhk=RHK.find(r=>r.id===parseInt(je.rhkId))||RHK[0];
+            return `
+            <div class="card">
+              <div class="sec-hd" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
+                <span>Agenda ${isToday?"Hari Ini":""} · 07.30–16.00</span>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <button class="btn-out" style="padding:6px 9px" onclick="homeShiftDay(-1)" title="Hari sebelumnya">‹</button>
+                  <input type="date" value="${S.homeDate}" onchange="homeSetDate(this.value)" style="width:148px;padding:6px 8px;font-size:11px"/>
+                  <button class="btn-out" style="padding:6px 9px" onclick="homeShiftDay(1)" title="Hari berikutnya">›</button>
+                  ${!isToday?`<button class="btn-ghost" style="padding:6px 10px" onclick="homeSetDate('${today()}')">Hari Ini</button>`:""}
+                </div>
+              </div>
+              <p style="font-size:11px;color:var(--txm);margin-bottom:14px;text-transform:capitalize">${dLabel} · ${doneCount} dari ${day.timeline.length} kegiatan selesai</p>
+
+              ${day.timeline.length===0?`<p style="font-size:11.5px;color:var(--txm);text-align:center;padding:16px 0">Belum ada catatan jurnal untuk tanggal ini. Tambahkan di bawah.</p>`:`
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+                ${day.timeline.map(e=>{
+                  const r=RHK.find(x=>x.id===e.rhkId); if(!r) return "";
+                  const jamLabel = e.time!=="-" ? (e.endTime?`${e.time}–${e.endTime}`:e.time) : "—";
+                  const metaBits=[e.desa?`Desa ${e.desa}`:"", e.sasaran?`Sasaran ${e.sasaran}`:""].filter(Boolean).join(" · ");
+                  return `
+                  <div class="rhk-card" style="cursor:default;padding:14px;${e.done?"opacity:.6":""}">
+                    <div style="display:flex;align-items:flex-start;gap:10px;justify-content:space-between;flex-wrap:wrap">
+                      <div style="display:flex;align-items:flex-start;gap:10px;min-width:0">
+                        <div style="width:52px;flex-shrink:0;text-align:center">
+                          <div style="font-size:10.5px;font-weight:800;color:var(--gold);white-space:nowrap">${jamLabel}</div>
+                          <div style="width:28px;height:28px;margin:4px auto 0;background:var(--goldDim);border:1px solid var(--goldBd);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:var(--gold)">${r.no}</div>
+                        </div>
+                        <div style="min-width:0">
+                          <p style="font-size:12.5px;font-weight:700;line-height:1.3;${e.done?"text-decoration:line-through":""}">${escHtml(e.workPlan||r.title)}</p>
+                          <p style="font-size:10.5px;color:var(--txm);margin-top:2px">RHK ${r.no} · ${escHtml(r.title)}${metaBits?" · "+escHtml(metaBits):""}</p>
+                        </div>
+                      </div>
+                      <div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;align-items:center">
+                        <button class="btn-ghost" style="padding:5px 10px;${e.done?"":"opacity:.6"}" onclick="homeToggleTimelineDone('${e.id}')" title="Tandai selesai/belum">${e.done?ico("chk",12):""} ${e.done?"Selesai":"Tandai Selesai"}</button>
+                        <button class="btn-out" style="padding:5px 10px" onclick="homeGoToForm(${r.id})">Isi Form</button>
+                        <button class="btn-out" style="padding:5px 10px;color:#f85149;border-color:#f85149" onclick="homeRemoveTimeline('${e.id}')">Hapus</button>
+                      </div>
+                    </div>
+                    ${e.desc?`<p style="font-size:11px;color:var(--txs);background:var(--surfhi);border-radius:6px;padding:7px 10px;margin-top:10px;line-height:1.5">${escHtml(e.desc)}</p>`:""}
+                  </div>`;
+                }).join("")}
+              </div>`}
+
+              <div class="divider"></div>
+              <p class="lbl" style="margin-bottom:10px">Tambah catatan jurnal</p>
+              <div class="row2" style="margin-bottom:10px">
+                <div><label class="lbl">Jam Mulai</label><input type="time" class="je-inp" data-key="time" value="${escAttr(je.time)}"/></div>
+                <div><label class="lbl">Jam Selesai</label><input type="time" class="je-inp" data-key="endTime" value="${escAttr(je.endTime)}"/></div>
+              </div>
+              <div class="row2" style="margin-bottom:10px">
+                <div><label class="lbl">Kategori RHK</label>
+                  <div class="select-wrap"><select class="je-rhk-sel">${RHK.map(r=>`<option value="${r.id}" ${jeRhk.id===r.id?"selected":""}>RHK ${r.no}: ${escHtml(r.title)}</option>`).join("")}</select></div>
+                </div>
+                <div><label class="lbl">Kegiatan Spesifik</label>
+                  <div class="select-wrap"><select class="je-workplan-sel">${jeRhk.options.map(o=>`<option value="${escAttr(o)}" ${je.workPlan===o?"selected":""}>${escHtml(o)}</option>`).join("")}</select></div>
+                </div>
+              </div>
+              <div class="row2" style="margin-bottom:10px">
+                <div><label class="lbl">Desa</label><input type="text" class="je-inp" data-key="desa" value="${escAttr(je.desa)}" placeholder="Nama desa"/></div>
+                <div><label class="lbl">Sasaran</label><input type="text" class="je-inp" data-key="sasaran" value="${escAttr(je.sasaran)}" placeholder="Misal: KPM PKH"/></div>
+              </div>
+              <label class="lbl">Catatan Kegiatan</label>
+              <textarea rows="3" class="je-ta" data-key="desc" placeholder="Tulis catatan singkat kegiatan ini…" style="margin-bottom:12px">${escHtml(je.desc)}</textarea>
+              <button class="btn-gold" style="width:100%;justify-content:center;padding:10px" onclick="homeAddTimeline()">${ico("plus",12)} Simpan Catatan Jurnal</button>
+            </div>`;
+          })()}
+
+          <!-- MONITOR EVIDEN — rekap jumlah eviden per RHK dari folder Drive SKP -->
+          ${(()=>{
+            const ev=S.eviden;
+            if(ev.link && !ev.data && !ev.loading && !ev.error && !ev._autoTried){
+              ev._autoTried=true;
+              setTimeout(()=>window.fetchEviden(ev.link),0);
+            }
+            if(!ev.data){
+              return `
+              <div class="card">
+                <div class="sec-hd">${ico("cloud",13)} Monitor Eviden</div>
+                <label class="lbl">Link folder Drive SKP</label>
+                <input type="text" class="je-eviden-link" value="${escAttr(ev.link)}" placeholder="https://drive.google.com/drive/folders/..."/>
+                <button class="btn-gold" style="width:100%;justify-content:center;margin-top:10px;padding:10px" onclick="fetchEviden(document.querySelector('.je-eviden-link').value)" ${ev.loading?"disabled":""}>
+                  ${ev.loading?`<span class="spin-ico">${IC.spin}</span> Menghitung…`:"Hitung Eviden"}
+                </button>
+                ${ev.error?`<p style="font-size:11px;color:#f85149;margin-top:8px">${escHtml(ev.error)}</p>`:""}
+                <p style="font-size:10.5px;color:var(--txm);margin-top:10px;line-height:1.5">Tempel link folder SKP (berisi folder RHK1–RHK9), sudah diatur "Anyone with the link".</p>
+              </div>`;
+            }
+            const rhkList=Object.keys(ev.data).sort((a,b)=>evNomorRhk(a)-evNomorRhk(b));
+            let total=0;
+            const cards=rhkList.map(rhkKey=>{
+              const bulanData=ev.data[rhkKey];
+              const keyBulan=Object.keys(bulanData).find(k=>evNomorBulan(k)===ev.bulan);
+              const jumlah=keyBulan?bulanData[keyBulan]:0;
+              total+=jumlah;
+              return `<div style="background:var(--surfhi);border-radius:10px;padding:8px;text-align:center">
+                <p style="margin:0;font-size:9px;color:var(--txm)">RHK ${evNomorRhk(rhkKey)}</p>
+                <p style="margin:2px 0 0;font-size:16px;font-weight:800;color:${jumlah===0?"var(--txm)":"var(--gold)"}">${jumlah}</p>
+              </div>`;
+            }).join("");
+            return `
+            <div class="card">
+              <div class="sec-hd" style="justify-content:space-between">
+                <span>${ico("cloud",13)} Monitor Eviden · ${evNamaBulan(ev.bulan)}</span>
+                <div style="display:flex;gap:6px">
+                  <button class="btn-out" style="padding:5px 9px" onclick="fetchEviden(S.eviden.link)" title="Muat ulang">${ico("ref",13)}</button>
+                  <button class="btn-out" style="padding:5px 9px" onclick="evidenGantiLink()" title="Ganti link">${ico("edit",13)}</button>
+                </div>
+              </div>
+              <div class="select-wrap" style="margin-bottom:12px"><select onchange="evidenSetBulan(this.value)">
+                ${EVIDEN_BULAN.map((b,i)=>`<option value="${i+1}" ${ev.bulan===i+1?"selected":""}>${b}</option>`).join("")}
+              </select></div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${cards}</div>
+              <p style="margin:12px 0 0;font-size:11px;color:var(--txs);font-weight:700">Total ${total} eviden terupload bulan ini</p>
+              ${ev.error?`<p style="font-size:11px;color:#f85149;margin-top:8px">${escHtml(ev.error)}</p>`:""}
+            </div>`;
+          })()}
+
+        </div>
+        `:""}
 
         ${S.page==="edit"?`
-        <!-- TAB EDIT -->
-        <div class="fi" style="width:100%;max-width:600px;display:flex;flex-direction:column;gap:16px;margin:0 auto">
+        <!-- EDIT PAGE -->
+        <div class="fi" style="width:100%;max-width:560px;display:flex;flex-direction:column;gap:16px">
 
-          <!-- CARD RHK -->
+          <!-- RHK -->
           <div id="sec-rhk2" class="card">
             <div class="sec-hd" style="justify-content:space-between">
               <span style="display:flex;align-items:center;gap:8px">${ico("grid")} Rencana Hasil Kerja</span>
-              <span style="background:var(--goldDim);border:1px solid var(--goldBd);color:var(--gold);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700">RHK ${rhk.no}</span>
+              <span style="background:var(--goldDim);border:1px solid var(--goldBd);color:var(--gold);border-radius:6px;padding:2px 10px;font-size:10px;font-weight:700">RHK ${rhk.no}</span>
             </div>
             <div class="fld">
               <div><label class="lbl">Pilih RHK</label><div class="select-wrap">
@@ -954,7 +1332,7 @@ function render(){
               ${rhk.no===8?inp("Sasaran / Target","sasaran"):""}
               ${rhk.no===9?inp("Sasaran","sasaran",undefined,true):""}
               ${rhk.no===2?`
-              <div style="background:#0d1117;border:1px solid var(--bd);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:12px">
+              <div style="background:var(--surfhi);border:1px solid var(--bd);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:10px">
                 <div><label class="lbl">Modul P2K2</label><div class="select-wrap">
                   <select class="modul-sel">${Object.keys(P2K2).map(m=>`<option value="${escAttr(m)}" ${S.modul===m?"selected":""}>${escHtml(m)}</option>`).join("")}</select>
                 </div></div>
@@ -963,8 +1341,8 @@ function render(){
                 </div></div>
               </div>`:""}
               ${rhk.no===4?`
-              <div style="background:#0d1117;border:1px solid var(--goldBd);border-radius:10px;padding:14px">
-                <p style="font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Data ${f.kegiatan?.toLowerCase().includes("ppse")?"Usulan PPSE":"Graduasi"}</p>
+              <div style="background:var(--surfhi);border:1px solid var(--goldBd);border-radius:8px;padding:14px">
+                <p style="font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Data ${f.kegiatan?.toLowerCase().includes("ppse")?"Usulan PPSE":"Graduasi"}</p>
                 <div class="fld">
                   <div class="row2">${inp("Nama KPM","ppse_nama")}${inp("Tahun Awal PKH","ppse_tahun_pkh")}</div>
                   ${f.kegiatan?.toLowerCase().includes("ppse")?`
@@ -980,42 +1358,54 @@ function render(){
             </div>
           </div>
 
-          <!-- CARD LOKASI -->
+          <!-- LOKASI -->
           <div id="sec-lokasi" class="card">
             <div class="sec-hd">${ico("map")} Lokasi & Waktu</div>
             <div class="fld">
-              ${desaDropdownHTML()}
+              ${S.villages.length===0?`
+              <div style="background:var(--surfhi);border:1px solid var(--bd);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px">
+                <p style="font-size:11px;color:var(--txm);line-height:1.6">Belum ada Desa &amp; Kelompok Dampingan. Tambahkan lewat menu Pengaturan agar bisa dipilih di sini.</p>
+                <button class="btn-ghost" style="align-self:flex-start" onclick="openProfileGate()">${ico("gear",12)} Buka Pengaturan</button>
+              </div>`:`
+              <div class="row2">
+                <div><label class="lbl">Desa Dampingan</label><div class="select-wrap">
+                  <select class="desa-sel">${S.villages.map(v=>`<option value="${escAttr(v.nama)}" ${f.desa===v.nama?"selected":""}>${escHtml(v.nama)}</option>`).join("")}</select>
+                </div></div>
+                <div><label class="lbl">Kelompok</label><div class="select-wrap">
+                  <select class="kelompok-sel">${(S.villages.find(v=>v.nama===f.desa)?.kelompok||[]).map(k=>`<option value="${escAttr(k)}" ${f.kelompok===k?"selected":""}>${escHtml(k)}</option>`).join("")}</select>
+                </div></div>
+              </div>`}
               ${inp("Lokasi Spesifik","tempat")}
               ${inp("Tanggal Kegiatan","tgl_kegiatan","date")}
             </div>
           </div>
 
-          <!-- CARD MEDIA / FOTO -->
+          <!-- MEDIA -->
           <div id="sec-media" class="card">
             <div class="sec-hd">${ico("img")} Foto & Media</div>
             <div class="fld">
               <div class="row2">${photoSlot("kop","Kop Surat","5/1")}${photoSlot("ttd","Tanda Tangan","5/1")}</div>
-              ${photoSlot("f1","Foto Utama (Lampiran 1)")}
-              ${photoSlot("f2","Foto Pendukung 1 (Lampiran 2)")}
-              ${photoSlot("f3","Foto Pendukung 2 (Lampiran 3)")}
+              ${photoSlot("f1","Foto Utama")}
+              ${photoSlot("f2","Foto Pendukung 1")}
+              ${photoSlot("f3","Foto Pendukung 2")}
             </div>
           </div>
 
-          <!-- CARD NARASI -->
+          <!-- NARASI -->
           <div id="sec-narasi" class="card">
             <div class="sec-hd" style="justify-content:space-between">
               <span style="display:flex;align-items:center;gap:8px">${ico("txt")} Narasi Laporan</span>
-              <button class="btn-ghost" onclick="refill()">${ico("ref",12)} Auto-Isi Ulang</button>
+              <button class="btn-ghost" onclick="refill()">${ico("ref",12)} Auto-isi Ulang</button>
             </div>
             <div class="fld">
-              ${ta("Pendahuluan Umum","umum",4)}
-              ${ta("Maksud & Tujuan","tujuan",5)}
-              ${ta("Narasi Kegiatan","narasi",5)}
-              ${ta("Hasil yang Dicapai","hasil",5)}
+              ${taAI("Pendahuluan Umum","umum",4,"Pendahuluan Umum")}
+              ${taAI("Maksud & Tujuan","tujuan",5,"Maksud dan Tujuan")}
+              ${taAI("Narasi Kegiatan","narasi",5,"Narasi Kegiatan yang Dilaksanakan")}
+              ${taAI("Hasil yang Dicapai","hasil",5,"Hasil yang Dicapai")}
               <div class="divider"></div>
-              <p class="lbl" style="color:var(--txm)">Dasar Kegiatan (Otomatis per RHK)</p>
-              <div style="background:#0d1117;border:1px solid var(--bd);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px">
-                ${dasar.map((d,i)=>`<div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--gold);font-weight:700;font-size:12px;min-width:18px;padding-top:1px">${i+1}.</span><span style="font-size:12px;color:var(--txs);line-height:1.6">${escHtml(d)}</span></div>`).join("")}
+              <p class="lbl" style="color:var(--txm)">Dasar Kegiatan (Auto per RHK)</p>
+              <div style="background:var(--surfhi);border:1px solid var(--bd);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px">
+                ${dasar.map((d,i)=>`<div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--gold);font-weight:700;font-size:11px;min-width:16px;padding-top:1px">${i+1}.</span><span style="font-size:11px;color:var(--txs);line-height:1.6">${escHtml(d)}</span></div>`).join("")}
               </div>
             </div>
           </div>
@@ -1024,50 +1414,50 @@ function render(){
         `:""}
 
         ${S.page==="preview"?`
-        <!-- TAB PREVIEW DOKUMEN -->
-        <div class="fi" style="flex:1;display:flex;flex-direction:column;gap:16px;min-width:0;max-width:1000px;margin:0 auto">
-          
-          <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;flex-wrap:wrap;gap:12px">
+        <!-- PREVIEW PAGE -->
+        <div class="fi" style="flex:1;display:flex;flex-direction:column;gap:16px;min-width:0">
+          <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px">
             <div>
-              <p style="font-weight:700;font-size:15px">Pratinjau Dokumen A4</p>
-              <p style="font-size:11px;color:var(--txm);margin-top:2px">RHK ${rhk.no}: ${rhk.title}</p>
+              <p style="font-weight:700;font-size:14px">Pratinjau Dokumen A4</p>
+              <p style="font-size:10px;color:var(--txm);margin-top:2px">RHK ${rhk.no}: ${rhk.title} · ${S.fontSize}pt</p>
             </div>
-
-            <!-- AKSI PRATINJAU -->
-            <button class="btn-gold" onclick="sharePDF()" ${S.shareLoading?"disabled":""} style="background:linear-gradient(135deg,#25D366,#128C7E);color:#fff">
-              ${S.shareLoading?`<span class="spin-ico">${IC.spin}</span>`:`${ico("share",14)} Bagikan`}
-            </button>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn-out" onclick="exportWord()">${ico("word")} Word</button>
+              <button class="btn-gold" onclick="shareReport()" ${S.shareLoading?"disabled":""}>
+                ${S.shareLoading?`<span class="spin-ico">${IC.spin}</span> Menyiapkan…`:`${ico("share")} Bagikan`}
+              </button>
+              <button class="btn-out" onclick="exportPDF()" ${S.pdfLoading?"disabled":""} style="display:none">
+                ${S.pdfLoading?`<span class="spin-ico">${IC.spin}</span> Memproses…`:`${ico("pdf")} Cetak PDF`}
+              </button>
+            </div>
           </div>
-
-          <!-- DOKUMEN A4 CONTAINER -->
-          <div id="doc-preview-wrapper">
+          <div style="overflow-x:auto;padding-bottom:40px">
             ${docHTML(S.fontSize)}
           </div>
         </div>
         `:""}
 
         ${S.page==="rhk"?`
-        <!-- TAB DAFTAR RHK -->
-        <div class="fi" style="width:100%;max-width:1000px;margin:0 auto">
-          <div style="margin-bottom:20px">
-            <h1 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:6px">Daftar Rencana Hasil Kerja (RHK)</h1>
-            <p style="color:var(--txm);font-size:13px">Pilih RHK untuk menyesuaikan narasi dan instrumen laporan harian secara otomatis.</p>
+        <!-- RHK LIST PAGE -->
+        <div class="fi" style="width:100%">
+          <div style="margin-bottom:24px">
+            <h1 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:6px">Daftar Rencana Hasil Kerja</h1>
+            <p style="color:var(--txm);font-size:12px">9 RHK ASN PPPK Direktorat PSNK · Klik kartu untuk memilih</p>
           </div>
-
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px">
             ${RHK.map(r=>`
             <div class="rhk-card ${rhk.id===r.id?"active":""}" onclick="pickRHK(${r.id})">
-              ${rhk.id===r.id?`<div style="float:right;background:var(--goldDim);border:1px solid var(--goldBd);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:var(--gold)">${ico("chk",14)}</div>`:""}
+              ${rhk.id===r.id?`<div style="float:right;background:var(--goldDim);border:1px solid var(--goldBd);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:var(--gold)">${ico("chk",12)}</div>`:""}
               <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">
-                <div style="width:42px;height:42px;background:var(--goldDim);border:1px solid var(--goldBd);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--gold);flex-shrink:0;font-family:'Playfair Display',serif">${r.no}</div>
-                <div><p style="font-size:14px;font-weight:700;line-height:1.3;margin-bottom:3px">${r.title}</p><p style="font-size:11px;color:var(--txm)">${r.sub}</p></div>
+                <div style="width:40px;height:40px;background:var(--goldDim);border:1px solid var(--goldBd);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--gold);flex-shrink:0;font-family:'Playfair Display',serif">${r.no}</div>
+                <div><p style="font-size:13px;font-weight:700;line-height:1.3;margin-bottom:3px">${r.title}</p><p style="font-size:11px;color:var(--txm)">${r.sub}</p></div>
               </div>
-              <div style="display:flex;flex-direction:column;gap:6px">
-                ${r.options.map(o=>`<div style="display:flex;gap:8px;background:#0d1117;border-radius:8px;padding:8px 10px"><div style="width:5px;height:5px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:6px"></div><span style="font-size:12px;color:var(--txs);line-height:1.4">${escHtml(o)}</span></div>`).join("")}
+              <div style="display:flex;flex-direction:column;gap:5px">
+                ${r.options.map(o=>`<div style="display:flex;gap:8px;background:var(--surfhi);border-radius:6px;padding:7px 10px"><div style="width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:7px"></div><span style="font-size:11px;color:var(--txs);line-height:1.5">${escHtml(o)}</span></div>`).join("")}
               </div>
-              <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between">
-                <span style="font-size:11px;color:var(--txm)">${r.options.length} Pilihan Kegiatan</span>
-                <span style="font-size:12px;color:var(--gold);font-weight:700">Pilih RHK ›</span>
+              <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:10px;color:var(--txm)">${r.options.length} jenis kegiatan</span>
+                <span style="font-size:11px;color:var(--gold);font-weight:700">Pilih ›</span>
               </div>
             </div>`).join("")}
           </div>
@@ -1077,27 +1467,38 @@ function render(){
       </main>
     </div>
 
-    <!-- NAVBAR BAWAH UNTUK HP -->
-    <nav style="position:fixed;bottom:0;left:0;right:0;background:rgba(13,15,17,.98);border-top:1px solid var(--bd);padding:8px 12px;display:flex;justify-content:space-around;align-items:center;z-index:300;backdrop-filter:blur(16px)" id="mob-nav">
-      <button onclick="setPage('edit')" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:${S.page==="edit"?"var(--gold)":"var(--txm)"}">
-        ${ico("txt",20)}<span style="font-size:10px;font-weight:700">EDIT</span>
-      </button>
-      <button onclick="setPage('preview')" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:${S.page==="preview"?"var(--gold)":"var(--txm)"}">
-        ${ico("eye",20)}<span style="font-size:10px;font-weight:700">PRATINJAU</span>
-      </button>
-      <button onclick="setPage('rhk')" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:${S.page==="rhk"?"var(--gold)":"var(--txm)"}">
-        ${ico("grid",20)}<span style="font-size:10px;font-weight:700">RHK</span>
-      </button>
-      <button onclick="sharePDF()" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:#25D366">
-        ${ico("share",20)}<span style="font-size:10px;font-weight:700">BAGIKAN</span>
-      </button>
+    <!-- MOBILE BOTTOM NAV -->
+    <nav style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);border-top:1px solid var(--bd);padding:6px 10px;justify-content:space-around;z-index:300;backdrop-filter:blur(12px)" id="mob-nav">
+      <button onclick="setPage('home')" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:${S.page==="home"?"var(--gold)":"var(--txm)"};padding:4px 8px">${ico("notebook",20)}<span style="font-size:9px;font-weight:700;text-transform:uppercase">Jurnal</span></button>
+      <button onclick="setPage('edit')" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:${S.page==="edit"?"var(--gold)":"var(--txm)"};padding:4px 8px">${ico("txt",20)}<span style="font-size:9px;font-weight:700;text-transform:uppercase">Isi Form</span></button>
+      <button onclick="setPage('preview')" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:${S.page==="preview"?"var(--gold)":"var(--txm)"};padding:4px 8px">${ico("eye",20)}<span style="font-size:9px;font-weight:700;text-transform:uppercase">Lihat</span></button>
+      <button onclick="setPage('rhk')" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:${S.page==="rhk"?"var(--gold)":"var(--txm)"};padding:4px 8px;display:none">${ico("grid",20)}<span style="font-size:9px;font-weight:700;text-transform:uppercase">RHK</span></button>
+      <button onclick="shareReport()" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--gold);padding:4px 8px">${S.shareLoading?`<span class="spin-ico">${IC.spin}</span>`:ico("share",20)}<span style="font-size:9px;font-weight:700;text-transform:uppercase">Bagikan</span></button>
+      <button onclick="openProfileGate()" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--txm);padding:4px 8px">${ico("gear",20)}<span style="font-size:9px;font-weight:700;text-transform:uppercase">Pengaturan</span></button>
+      <button onclick="exportPDF()" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--gold);padding:4px 8px;display:none">${ico("pdf",20)}<span style="font-size:9px;font-weight:700;text-transform:uppercase">PDF</span></button>
+      ${S.showInstallBtn?`<button onclick="installApp()" style="display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--gold);padding:4px 8px">${ico("install",20)}<span style="font-size:9px;font-weight:700;text-transform:uppercase">Instal</span></button>`:""}
     </nav>
+
+    <!-- BANNER: petunjuk instal untuk iOS Safari (API beforeinstallprompt tidak tersedia di iOS) -->
+    ${S.showIOSHint?`
+    <div style="position:fixed;left:12px;right:12px;bottom:14px;z-index:500;max-width:420px;margin:0 auto;background:rgba(15,42,82,.97);color:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 8px 30px rgba(0,0,0,.35);display:flex;gap:10px;align-items:center;backdrop-filter:blur(10px)">
+      <div style="flex-shrink:0">${ico("install",22)}</div>
+      <div style="flex:1;font-size:12px;line-height:1.5">
+        <b>Instal Eviden Helper ke Layar Utama</b><br/>
+        Ketuk ikon Bagikan di Safari (kotak dengan panah ke atas), lalu pilih <b>“Tambahkan ke Layar Utama”</b>.
+      </div>
+      <button onclick="dismissIOSHint()" title="Tutup" style="background:none;border:none;color:#7FB8DD;font-size:20px;line-height:1;cursor:pointer;padding:4px;flex-shrink:0">&times;</button>
+    </div>` : ""}
 
   </div>
   <div id="toast" style="display:none"></div>
   `;
 
-  // Bind Form Inputs & Listeners
+  // Show mobile nav
+  const mn=document.getElementById("mob-nav");
+  if(mn){ const show=()=>{mn.style.display=window.innerWidth<860?"flex":"none";}; show(); window.onresize=show; }
+
+  // Bind form inputs
   document.querySelectorAll(".form-inp").forEach(el=>{
     el.addEventListener("input",e=>setQuiet(e.target.dataset.key,e.target.value));
   });
@@ -1121,15 +1522,152 @@ function render(){
     S.sesi=e.target.value; autoNarrative(); render();
   });
   document.querySelector(".desa-sel")?.addEventListener("change",e=>{
-    S.form.desa=e.target.value; S.form.kelompok=""; autoNarrative(); render();
+    S.form.desa=e.target.value;
+    const v=S.villages.find(x=>x.nama===e.target.value);
+    S.form.kelompok=v?.kelompok[0]||"";
+    if(localStorage.getItem("autoreport_profile_done")==="1") saveProfile();
+    autoNarrative(); render();
   });
   document.querySelector(".kelompok-sel")?.addEventListener("change",e=>{
-    S.form.kelompok=e.target.value; autoNarrative(); render();
+    S.form.kelompok=e.target.value;
+    if(localStorage.getItem("autoreport_profile_done")==="1") saveProfile();
+    autoNarrative(); render();
+  });
+  // Bind field jurnal (Tambah catatan jurnal di halaman Jurnal)
+  document.querySelectorAll(".je-inp").forEach(el=>{
+    el.addEventListener("input",e=>setJEQuiet(e.target.dataset.key,e.target.value));
+  });
+  document.querySelectorAll(".je-ta").forEach(el=>{
+    el.addEventListener("input",e=>setJEQuiet(e.target.dataset.key,e.target.value));
+  });
+  document.querySelector(".je-rhk-sel")?.addEventListener("change",e=>jeSelectRHK(e.target.value));
+  document.querySelector(".je-workplan-sel")?.addEventListener("change",e=>jeSelectWorkPlan(e.target.value));
+  document.querySelector(".je-eviden-link")?.addEventListener("input",e=>setJEEvidenLink(e.target.value));
+}
+
+window.refill=()=>{ _narasiManual=false; autoNarrative(); render(); showToast("Narasi berhasil diperbarui ✓"); };
+window.pickRHK=(id)=>{ const r=RHK.find(x=>x.id===id); S.rhk=r; S.form.kegiatan=r.options[0]; _narasiManual=false; autoNarrative(); S.page="edit"; render(); };
+
+// ── GENERATE NARASI PER-BAGIAN DENGAN AI (GEMINI) ──
+window.generateNarasiAI = async (key, subjudul) => {
+  if(!S.geminiKey || !S.geminiKey.trim()){
+    showToast("Isi dulu Gemini API Key di menu Pengaturan",true);
+    return;
+  }
+  if(!S.aiLoading) S.aiLoading={};
+  if(S.aiLoading[key]) return; // sudah diproses, jangan dobel klik
+
+  const f=S.form, rhk=S.rhk;
+  const konteks=[
+    `Jenis RHK: RHK ${rhk.no} — ${rhk.title} (${rhk.sub})`,
+    `Sub-kegiatan yang dipilih: ${f.kegiatan||"-"}`,
+    rhk.no===2?`Modul & Sesi P2K2: ${S.modul} — ${S.sesi}`:"",
+    `Kelompok dampingan: ${f.kelompok||"-"}`,
+    `Desa dampingan: ${f.desa||"-"}`,
+    `Wilayah tugas: ${f.wilayah||"-"}`,
+    `Lokasi pelaksanaan: ${f.tempat||"-"}`,
+    `Tanggal kegiatan: ${toDate(f.tgl_kegiatan)||f.tgl_kegiatan||"-"}`,
+    f.sasaran?`Sasaran/pihak terkait: ${f.sasaran}`:""
+  ].filter(Boolean).join("\n");
+
+  const prompt=`Kamu membantu ASN PPPK Pendamping Sosial menyusun Laporan Harian RHK Program Keluarga Harapan (PKH) Kementerian Sosial RI.
+
+Tuliskan HANYA isi paragraf/poin untuk bagian laporan berjudul "${subjudul}", relevan dan konsisten dengan konteks kegiatan di bawah.
+Ketentuan:
+- Bahasa Indonesia formal gaya birokrasi pemerintahan, sesuai konteks program PKH.
+- Langsung isi kontennya saja — tanpa basa-basi pembuka/penutup, tanpa mengulang judul bagian, tanpa tanda kutip, tanpa markdown.
+- Jika bagian ini secara alami berbentuk daftar (mis. "Maksud dan Tujuan"), tulis 3 poin bernomor format persis "1. ...\\n2. ...\\n3. ..." (baris baru antar poin).
+- Jika bagian ini berbentuk narasi (mis. "Pendahuluan Umum", "Narasi Kegiatan", "Hasil yang Dicapai"), tulis 1 paragraf padat (4-6 kalimat).
+
+Konteks kegiatan:
+${konteks}`;
+
+  S.aiLoading[key]=true; render();
+  try{
+    const resp=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${encodeURIComponent(S.geminiKey.trim())}`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({contents:[{role:"user",parts:[{text:prompt}]}]})
+    });
+    const data=await resp.json();
+    if(!resp.ok) throw new Error(data?.error?.message || `Gemini API error (${resp.status})`);
+    const text=(data?.candidates?.[0]?.content?.parts||[]).map(p=>p.text||"").join("").trim();
+    if(!text) throw new Error("Respons AI kosong, coba lagi");
+
+    S.form[key]=text;
+    _narasiManual=true; // supaya tidak ditimpa autoNarrative()
+    const el=document.querySelector(`.form-ta[data-key="${key}"]`);
+    if(el) el.value=text;
+    if(S.page==="preview"){
+      const prev=document.getElementById("doc-preview");
+      if(prev){ const tmp=document.createElement("div"); tmp.innerHTML=docHTML(S.fontSize); const nd=tmp.firstElementChild; if(nd) prev.replaceWith(nd); }
+    }
+    showToast("Narasi AI berhasil dibuat ✓");
+  }catch(err){
+    console.error("Gemini generate error:",err);
+    showToast(err.message||"Gagal generate narasi AI, coba lagi",true);
+  }
+  S.aiLoading[key]=false;
+  render();
+};
+
+// ── PWA: daftarkan service worker (offline-ready, wajib untuk build APK) ──
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("sw.js").catch(err=>console.warn("SW gagal:",err));
   });
 }
 
-window.refill=()=>{ _narasiManual=false; autoNarrative(); render(); showToast("Narasi diperbarui otomatis ✓"); };
-window.pickRHK=(id)=>{ const r=RHK.find(x=>x.id===id); S.rhk=r; S.form.kegiatan=r.options[0]; _narasiManual=false; autoNarrative(); S.page="edit"; render(); };
+// ── PWA: tombol Instal ke Perangkat ──────────
+let deferredInstallPrompt = null;
+const isStandaloneApp = () =>
+  window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+const isIOSDevice = () => /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+
+// Chrome/Edge/Android: browser memicu event ini saat app memenuhi syarat utk diinstal
+window.addEventListener("beforeinstallprompt",(e)=>{
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  if(!isStandaloneApp()){
+    S.showInstallBtn = true;
+    render();
+  }
+});
+
+window.addEventListener("appinstalled",()=>{
+  deferredInstallPrompt = null;
+  S.showInstallBtn = false;
+  S.showIOSHint = false;
+  showToast("Aplikasi berhasil diinstal ✓");
+  render();
+});
+
+window.installApp = async function(){
+  if(!deferredInstallPrompt){
+    // Fallback (mis. iOS Safari tidak mendukung beforeinstallprompt)
+    S.showIOSHint = true; render();
+    return;
+  }
+  deferredInstallPrompt.prompt();
+  const choice = await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  S.showInstallBtn = false;
+  render();
+  if(choice.outcome!=="accepted") showToast("Instalasi dibatalkan");
+};
+
+window.dismissIOSHint = function(){
+  S.showIOSHint = false;
+  try{ localStorage.setItem("eh_install_hint_dismissed","1"); }catch(e){}
+  render();
+};
+
+// Tampilkan hint iOS otomatis (sekali saja, jika belum ditutup & belum terinstal)
+if(isIOSDevice() && !isStandaloneApp()){
+  try{
+    if(localStorage.getItem("eh_install_hint_dismissed")!=="1") S.showIOSHint = true;
+  }catch(e){ S.showIOSHint = true; }
+}
 
 render();
 </script>
